@@ -64,6 +64,26 @@
 
 ## Fase 1 — CERRADA ✅ (2026-07-20)
 
+### Fase 2 — SQL 🚧
+- El esquema (`01_create_schema.sql`) ya se había creado en la Fase 1 (era prerrequisito
+  técnico de la carga). Hoy se completó el resto de la carpeta `02_sql/`:
+- [x] `02_create_views.sql` — 5 vistas: v_facturas_enriquecida, v_kpis_diarios, v_rfm_pago
+  (RFM + comportamiento de pago), v_pareto_clientes (ABC), v_aging_dso (buckets de mora).
+  "Hoy" se calcula como MAX(fecha_emision) del propio dataset, no CURRENT_DATE (los datos
+  son un snapshot fijo 2024-2026, no siguen corriendo).
+- [x] `03_stored_procedures.sql` — sp_calcular_segmentacion(fecha_corte) [PROCEDURE, persiste
+  en tabla cliente_segmentacion], sp_reporte_mensual(año,mes) [FUNCTION, devuelve filas],
+  sp_refrescar_contexto() [ANALYZE tras recargar contexto macro]. Los 3 ejecutados y
+  probados con datos reales (segmentación a 2026-03-31: 120 clientes; reporte marzo 2026:
+  640 facturas, 5,73M€ facturados, 4,90M€ cobrados).
+- [x] `04_sample_queries.sql` — 8 consultas (las 6 preguntas de FICHA.md §4 + 2 bonus), todas
+  corridas con resultados reales: DSO corporate 76,1d vs pyme 45,6d; correlación
+  retraso-Euríbor 0,572 (medida sobre las 13.444 facturas cobradas, más fuerte que el 0,316
+  visto en Python porque cruza el Euríbor exacto del mes de cada vencimiento); correlación
+  IPC-importe 0,013 (débil al medir sobre importe_total mezclado — hay que aislar solo
+  servicios indexados/recurrentes para ver el efecto real, tarea de la Fase 4); calidad:
+  0 facturas con datos imposibles (consistente con verificar_carga.py).
+
 ## Notas técnicas importantes
 - **Al medir el retraso de pago, usar siempre `fecha_cobro − fecha_vencimiento` (retraso sobre
   lo PACTADO), nunca `fecha_cobro − fecha_emision` en bruto.** El `dso_pactado` (30 pyme vs
