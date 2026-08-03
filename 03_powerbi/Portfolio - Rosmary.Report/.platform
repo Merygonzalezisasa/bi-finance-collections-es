@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "Portfolio - Rosmary"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "669780d9-50ed-4a58-a2ab-c99ddfc67e53"
+  }
+}

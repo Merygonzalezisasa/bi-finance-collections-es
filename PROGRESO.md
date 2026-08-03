@@ -90,6 +90,19 @@
   60-90 corporate) es un factor de confusión que invierte el signo de la correlación con el
   Euríbor si se mide mal. Aplica igual en la Fase 2 (vistas SQL de aging/DSO) y la Fase 4.
 
+## Nota sobre Skills for Fabric (Microsoft, microsoft/skills-for-fabric)
+Rosmary pidió instalar la skill oficial de Microsoft para autoría de Power BI (Design +
+Authoring + Management) vía `/plugin marketplace add microsoft/skills-for-fabric`. **No es
+posible en este entorno**: la extensión de Claude Code para VS Code no soporta el sistema de
+marketplace de plugins (`/plugin` no existe acá) ni descubre skills locales por convención de
+archivos (`~/.claude/skills/` no existe, no hay `.claude/skills/` de proyecto). La lista de
+skills disponibles la fija la plataforma, no es extensible por el usuario en este setup.
+**Decisión:** en vez de la skill formal, cuando lleguemos a la Fase 3 (Power BI) se aplica el
+mismo conocimiento leyendo directamente la guía oficial de Microsoft Learn (Design/Authoring/
+Management skill overviews) — mismo resultado práctico, sin la infraestructura del plugin.
+Si en el futuro se quiere probar el Claude Code CLI real (terminal, fuera de VS Code), ahí sí
+podría soportar `/plugin`.
+
 ## Dudas abiertas
 - ¿El forward fill del fin de semana (EUR/USD) puede sesgar la correlación? → revisar en la Fase 4
   y declararlo en el notebook.

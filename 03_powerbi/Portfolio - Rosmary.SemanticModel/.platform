@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "Portfolio - Rosmary"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "122a880a-f8d4-4018-9e49-a4822746fe44"
+  }
+}

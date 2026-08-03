@@ -69,7 +69,7 @@ WHERE importe_neto <= 0
    OR fecha_cobro < fecha_emision;
 
 -- ═══════════════════════════════════════════════════════════════════════
--- 7) Bonus — aging de deuda vencida (morosidad real) por bucket
+-- 7) aging de deuda vencida (morosidad real) por bucket
 -- ═══════════════════════════════════════════════════════════════════════
 SELECT bucket_aging, COUNT(*) AS n_facturas, SUM(importe_total) AS importe
 FROM finance.v_aging_dso
@@ -78,7 +78,7 @@ GROUP BY bucket_aging
 ORDER BY bucket_aging;
 
 -- ═══════════════════════════════════════════════════════════════════════
--- 8) Bonus — morosidad por sector (confirma la correlación #5 de FICHA.md)
+-- 8) morosidad por sector (confirma la correlación #5 de FICHA.md)
 -- ═══════════════════════════════════════════════════════════════════════
 SELECT
     sector,
