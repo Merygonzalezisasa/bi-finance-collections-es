@@ -33,6 +33,7 @@ TABLAS = {
     "dim_cliente": {"csv": "dim_cliente.csv", "pk": "cliente_id", "fechas": ["fecha_alta"]},
     "dim_servicio": {"csv": "dim_servicio.csv", "pk": "servicio_id", "fechas": []},
     "dim_contexto_macro": {"csv": "dim_contexto_macro.csv", "pk": "fecha", "fechas": ["fecha"]},
+    "feriados": {"csv": "feriados_es.csv", "pk": ["fecha", "nombre", "comunidades"], "fechas": ["fecha"]},
     "fact_facturas": {
         "csv": "fact_facturas.csv", "pk": "factura_id",
         "fechas": ["fecha_emision", "fecha_vencimiento", "fecha_cobro"],
@@ -106,12 +107,20 @@ def cargar_tabla(engine, nombre, config):
     if config.get("validar_fks"):
         df = filtrar_fks_validas(engine, df)
 
+    # La PK puede ser una sola columna ("cliente_id") o compuesta (feriados: una
+    # fecha puede tener varias filas si coincide un feriado nacional y uno regional).
+    pk_cols = config["pk"] if isinstance(config["pk"], list) else [config["pk"]]
     columnas = list(df.columns)
-    actualizables = [c for c in columnas if c != config["pk"]]
+    actualizables = [c for c in columnas if c not in pk_cols]
+    # Si la PK cubre todas las columnas (como en feriados) no queda nada que
+    # actualizar: un "duplicado" es literalmente la misma fila, se ignora.
+    accion_conflicto = (
+        "DO NOTHING" if not actualizables
+        else "DO UPDATE SET " + ", ".join(f"{c} = EXCLUDED.{c}" for c in actualizables)
+    )
     sql = (
         f"INSERT INTO {ESQUEMA}.{nombre} ({', '.join(columnas)}) VALUES %s "
-        f"ON CONFLICT ({config['pk']}) DO UPDATE SET "
-        + ", ".join(f"{c} = EXCLUDED.{c}" for c in actualizables)
+        f"ON CONFLICT ({', '.join(pk_cols)}) {accion_conflicto}"
     )
     filas = [tuple(_valor_sql(v) for v in fila) for fila in df.itertuples(index=False, name=None)]
 

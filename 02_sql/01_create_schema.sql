@@ -79,3 +79,17 @@ COMMENT ON COLUMN finance.dim_cliente.dso_pactado IS
     '(ver PROGRESO.md: el dso_pactado distinto por cliente confunde esa métrica).';
 COMMENT ON TABLE  finance.dim_contexto_macro IS
     'Contexto externo real: Euríbor 12M (BCE), IPC (INE), EUR/USD (Frankfurter), a diario.';
+
+-- Detalle de feriados (Nager.Date). dim_tiempo.es_feriado/nombre_feriado ya trae un
+-- resumen (1 nombre por día); esta tabla trae el detalle completo, con varias filas
+-- por fecha cuando coinciden un feriado nacional y uno regional el mismo día. Sin PK
+-- de una sola columna porque justamente eso puede repetirse por fecha.
+CREATE TABLE IF NOT EXISTS finance.feriados (
+    fecha        DATE NOT NULL,
+    nombre       TEXT NOT NULL,
+    comunidades  TEXT NOT NULL,
+    PRIMARY KEY (fecha, nombre, comunidades)
+);
+
+COMMENT ON TABLE finance.feriados IS
+    'Feriados de España (Nager.Date) con detalle de alcance nacional/autonómico.';

@@ -90,6 +90,19 @@
   60-90 corporate) es un factor de confusión que invierte el signo de la correlación con el
   Euríbor si se mide mal. Aplica igual en la Fase 2 (vistas SQL de aging/DSO) y la Fase 4.
 
+## Corrección post-Fase 2: faltaba cargar feriados_es
+Rosmary detectó (2026-08-03) que `finance.feriados` no existía en Postgres — error mío: en la
+Fase 1 el extractor generó `data/raw/feriados_es.csv` (130 filas), pero nunca lo agregué al
+diccionario `TABLAS` de `load_to_postgres.py`, así que se quedó solo en el CSV. Corregido:
+- `02_sql/01_create_schema.sql`: tabla `finance.feriados` (fecha, nombre, comunidades),
+  **PK compuesta** (no hay columna única: un mismo día puede tener un feriado nacional y uno
+  regional, ej. "Año Nuevo" aparece 2 veces el 2023-01-01 con distinto alcance).
+- `01_etl/load_to_postgres.py`: `cargar_tabla()` ahora soporta PK compuesta (lista de
+  columnas) y usa `DO NOTHING` en vez de `DO UPDATE SET` cuando la PK cubre todas las
+  columnas (si no, el SQL queda con un `SET` vacío e inválido).
+- `01_etl/verificar_carga.py`: agregada a los conteos.
+Verificado: carga 130/130, idempotente (2 corridas, mismos conteos), verificar_carga 4/4 OK.
+
 ## Nota sobre Skills for Fabric (Microsoft, microsoft/skills-for-fabric)
 Rosmary pidió instalar la skill oficial de Microsoft para autoría de Power BI (Design +
 Authoring + Management) vía `/plugin marketplace add microsoft/skills-for-fabric`. **No es

@@ -26,6 +26,7 @@ TABLAS_CSV = {
     "dim_cliente": "dim_cliente.csv",
     "dim_servicio": "dim_servicio.csv",
     "dim_contexto_macro": "dim_contexto_macro.csv",
+    "feriados": "feriados_es.csv",
     "fact_facturas": "fact_facturas.csv",
 }
 
