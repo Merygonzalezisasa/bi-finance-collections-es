@@ -62,6 +62,21 @@ Start-Process .\postgresql-16.12-1-windows-x64.exe -ArgumentList "--mode","unatt
 Servicio: `postgresql-x64-16` (arranca solo con Windows). Contraseña del superusuario:
 en `.env` (no versionado). Verificado: conexión y permisos de escritura desde Python ✓.
 
+### Azure CLI (opcional — no requerido para el flujo local del proyecto)
+
+Se instaló a pedido de Rosmary, aunque no es necesario para trabajar con Power BI Desktop
+local. `winget install Microsoft.AzureCLI` falló dos veces ("No se ha encontrado ningún
+instalador aplicable"). Instalador MSI oficial directo:
+
+```powershell
+Invoke-WebRequest "https://aka.ms/installazurecliwindows" -OutFile AzureCLI.msi
+Start-Process msiexec.exe -ArgumentList "/i","AzureCLI.msi","/qn","/norestart" -Verb RunAs -Wait
+```
+
+Quedó en `C:\Program Files (x86)\Microsoft SDKs\Azure\CLI2\wbin\az.cmd` (no en `Program Files`
+sin `(x86)`, aunque Windows es de 64 bits). Verificado: `az --version` → `azure-cli 2.89.0`.
+**Hace falta cerrar y reabrir la terminal** para que tome el PATH actualizado.
+
 ## Errores encontrados y su solución
 
 | Síntoma | Causa | Solución |
@@ -69,5 +84,7 @@ en `.env` (no versionado). Verificado: conexión y permisos de escritura desde P
 | `python` en la terminal "responde" pero pide instalar desde la Store | Es el **alias stub** de Microsoft Store, no un Python real | Desactivar el alias o instalar Python de verdad; verificar con `Get-Command python` que apunte a `...\Programs\Python\...` |
 | `curl.exe` a APIs HTTPS falla con exit code 35 | Windows PowerShell 5.1 negocia TLS viejo | `[Net.ServicePointManager]::SecurityProtocol = Tls12` antes de llamar; en Python `requests` no hace falta |
 | `winget install` se cuelga sin salida en terminal no interactiva | winget espera algo que no puede mostrar (elevación/acuerdos) | Descargar el instalador oficial y correrlo con flags silenciosos (`/quiet`, `/VERYSILENT`) |
+| `winget list`/`install` piden aceptar términos de la fuente `msstore` y se cuelgan | Prompt interactivo de `[Y] Sí [N] No` sin stdin disponible | Agregar `--accept-source-agreements` y apuntar `--source winget` explícitamente |
+| `winget install Microsoft.AzureCLI` → "No se ha encontrado ningún instalador aplicable" | El manifiesto de winget para ese paquete no matcheó esta máquina | Instalador MSI oficial directo desde `https://aka.ms/installazurecliwindows` |
 | La API del BCE responde en PowerShell pero en Python da `CERTIFICATE_VERIFY_FAILED` | Hay inspección TLS (antivirus/proxy): PowerShell confía en los certificados de Windows, Python solo en `certifi` | `pip install truststore` + `truststore.inject_into_ssl()` antes de las peticiones (es lo que usa pip) |
 | Acentos rotos ("GonzÃ¡lez") al capturar salida de git desde Python | git emite UTF-8, `subprocess` decodifica con cp1252 | `subprocess.run(..., encoding="utf-8")` |
