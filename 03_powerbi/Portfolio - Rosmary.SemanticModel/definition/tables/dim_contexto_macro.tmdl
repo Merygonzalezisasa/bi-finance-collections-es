@@ -1,0 +1,37 @@
+table dim_contexto_macro
+	lineageTag: 4e33fdb4-6311-4bc6-9e81-573bc57ed161
+
+	column fecha
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: ae42e38e-170b-4841-99a1-aa591cbdb30a
+		summarizeBy: none
+		sourceColumn: fecha
+
+	column euribor_12m
+		dataType: decimal
+		lineageTag: 6b1a6da6-7b3c-4083-bd3e-797498486952
+		summarizeBy: none
+		sourceColumn: euribor_12m
+
+	column ipc_var_anual
+		dataType: decimal
+		lineageTag: 46e2efbb-88a9-489a-aefc-fc756c8d2c61
+		summarizeBy: none
+		sourceColumn: ipc_var_anual
+
+	column eur_usd
+		dataType: decimal
+		lineageTag: 70dcc374-3ed2-40cb-b517-da53c0308c17
+		summarizeBy: none
+		sourceColumn: eur_usd
+
+	partition dim_contexto_macro-Partition = m
+		mode: import
+		source =
+				let
+				    Origen = PostgreSQL.Database("localhost:5432", "finance_analytics"),
+				    Datos = Origen{[Schema="finance", Item="dim_contexto_macro"]}[Data]
+				in
+				    Datos
+

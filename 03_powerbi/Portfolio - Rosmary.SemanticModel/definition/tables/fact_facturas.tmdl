@@ -1,0 +1,132 @@
+table fact_facturas
+	lineageTag: f3649bef-6c76-4a43-91d5-f05bce0843e1
+
+	column factura_id
+		dataType: int64
+		lineageTag: d2725691-cb8b-47e5-bd57-05278d1edcb8
+		summarizeBy: none
+		sourceColumn: factura_id
+
+	column cliente_id
+		dataType: int64
+		lineageTag: 0c17ff2e-e6c3-42f2-8554-1cdf70842e91
+		summarizeBy: none
+		sourceColumn: cliente_id
+
+	column servicio_id
+		dataType: int64
+		lineageTag: 0e39f1ca-6ec0-4f61-829a-80b75838ead3
+		summarizeBy: none
+		sourceColumn: servicio_id
+
+	column fecha_emision
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: c8f4cd1a-85f5-4662-b054-55e8a6fe7ee8
+		summarizeBy: none
+		sourceColumn: fecha_emision
+
+	column fecha_vencimiento
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: cf35cd2e-add8-479b-bd84-eb69b725d75f
+		summarizeBy: none
+		sourceColumn: fecha_vencimiento
+
+	column fecha_cobro
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: 99c217df-a3e0-4259-b72e-3a61f56d3a9a
+		summarizeBy: none
+		sourceColumn: fecha_cobro
+
+	column importe_neto
+		dataType: decimal
+		lineageTag: de8f0a7a-9a67-4277-9b5e-1cccf99616d4
+		summarizeBy: sum
+		sourceColumn: importe_neto
+
+	column iva
+		dataType: decimal
+		lineageTag: 6d383aa1-12ba-463a-b607-e27f2fc1803c
+		summarizeBy: sum
+		sourceColumn: iva
+
+	column importe_total
+		dataType: decimal
+		lineageTag: 9b05964f-3110-4dc0-840a-dd369557012b
+		summarizeBy: sum
+		sourceColumn: importe_total
+
+	column estado
+		dataType: string
+		lineageTag: 7c6811f8-0c1b-45c3-a374-caf71b55ed5e
+		sourceColumn: estado
+
+	/// Dias desde emision hasta cobro. Vacio si no esta cobrada.
+	column dias_hasta_cobro = IF(NOT ISBLANK(fact_facturas[fecha_cobro]), DATEDIFF(fact_facturas[fecha_emision], fact_facturas[fecha_cobro], DAY))
+		lineageTag: 74573ef4-c168-439d-b11d-b0eaaa8a736a
+		summarizeBy: none
+
+	/// Dias de retraso sobre el vencimiento. Negativo si se pago antes. Vacio si no esta cobrada.
+	column retraso_dias = IF(NOT ISBLANK(fact_facturas[fecha_cobro]), DATEDIFF(fact_facturas[fecha_vencimiento], fact_facturas[fecha_cobro], DAY))
+		lineageTag: e6185056-dc1d-4c82-b72e-02e03fd679db
+		summarizeBy: none
+
+	/// Verdadero si se cobro despues del vencimiento.
+	column cobrada_con_retraso = IF(NOT ISBLANK(fact_facturas[fecha_cobro]), fact_facturas[fecha_cobro] > fact_facturas[fecha_vencimiento])
+		lineageTag: f719242b-75a1-40e0-a836-1c73071681f3
+
+	/// Dias vencidos a fecha de corte para facturas no cobradas.
+	column dias_vencido =
+			VAR Corte = MAXX(ALL(fact_facturas), fact_facturas[fecha_emision])
+			RETURN
+			    IF(
+			        ISBLANK(fact_facturas[fecha_cobro]),
+			        DATEDIFF(fact_facturas[fecha_vencimiento], Corte, DAY)
+			    )
+		lineageTag: 2a3db9cb-a5b5-43e1-acd0-aa1b2a0e38b3
+		summarizeBy: none
+
+	/// Tramo de antiguedad de la deuda pendiente.
+	column bucket_aging =
+			VAR d = fact_facturas[dias_vencido]
+			RETURN
+			    SWITCH(
+			        TRUE(),
+			        ISBLANK(d), "Cobrada",
+			        d <= 0, "No vencida",
+			        d <= 30, "1-30 dias",
+			        d <= 60, "31-60 dias",
+			        d <= 90, "61-90 dias",
+			        "Mas de 90 dias"
+			    )
+		lineageTag: db7a9c49-2b83-4db9-b185-34f69c7d640d
+		sortByColumn: bucket_aging_orden
+
+	/// Orden del bucket de aging.
+	column bucket_aging_orden =
+			VAR d = fact_facturas[dias_vencido]
+			RETURN
+			    SWITCH(
+			        TRUE(),
+			        ISBLANK(d), 0,
+			        d <= 0, 1,
+			        d <= 30, 2,
+			        d <= 60, 3,
+			        d <= 90, 4,
+			        5
+			    )
+		isHidden
+		lineageTag: f00b21c0-6f8c-48b6-92fc-c8b0b769552f
+		summarizeBy: none
+
+	partition fact_facturas-Partition = m
+		mode: import
+		source =
+				let
+				    Origen = PostgreSQL.Database("localhost:5432", "finance_analytics"),
+				    Datos = Origen{[Schema="finance", Item="fact_facturas"]}[Data]
+				in
+				    Datos
+

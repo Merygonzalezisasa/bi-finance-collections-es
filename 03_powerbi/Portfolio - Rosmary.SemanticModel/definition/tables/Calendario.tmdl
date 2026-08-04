@@ -1,0 +1,116 @@
+/// Tabla de fechas calculada en DAX que cubre anios completos del rango de datos
+table Calendario
+	lineageTag: 6186b7b4-72f1-4ade-86ad-a6859979a09f
+	dataCategory: Time
+
+	column Date
+		isUnique
+		formatString: yyyy-mm-dd
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Date]
+
+	column anio
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [anio]
+
+	column trimestre
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [trimestre]
+
+	column trimestre_nombre
+		isNameInferred
+		sourceColumn: [trimestre_nombre]
+
+	column anio_trimestre
+		isNameInferred
+		sourceColumn: [anio_trimestre]
+
+	column mes
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [mes]
+
+	column mes_nombre
+		isNameInferred
+		sourceColumn: [mes_nombre]
+		sortByColumn: mes
+
+	column mes_corto
+		isNameInferred
+		sourceColumn: [mes_corto]
+		sortByColumn: mes
+
+	column anio_mes
+		isNameInferred
+		sourceColumn: [anio_mes]
+		sortByColumn: anio_mes_orden
+
+	column anio_mes_orden
+		isHidden
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [anio_mes_orden]
+
+	column dia
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [dia]
+
+	column dia_semana_num
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [dia_semana_num]
+
+	column dia_semana
+		isNameInferred
+		sourceColumn: [dia_semana]
+		sortByColumn: dia_semana_num
+
+	column es_fin_de_semana
+		isNameInferred
+		sourceColumn: [es_fin_de_semana]
+
+	column semana_iso
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [semana_iso]
+
+	column es_fin_de_mes
+		isNameInferred
+		sourceColumn: [es_fin_de_mes]
+
+	column es_cierre_trimestre
+		isNameInferred
+		sourceColumn: [es_cierre_trimestre]
+
+	partition Calendario = calculated
+		mode: import
+		source =
+				VAR MinDato = MINX({ MIN(fact_facturas[fecha_emision]), MIN(dim_contexto_macro[fecha]) }, [Value])
+				VAR MaxDato = MAXX({ MAX(fact_facturas[fecha_emision]), MAX(fact_facturas[fecha_vencimiento]), MAX(fact_facturas[fecha_cobro]), MAX(dim_contexto_macro[fecha]) }, [Value])
+				VAR MinFecha = DATE(YEAR(MinDato), 1, 1)
+				VAR MaxFecha = DATE(YEAR(MaxDato), 12, 31)
+				RETURN
+				ADDCOLUMNS(
+				    CALENDAR(MinFecha, MaxFecha),
+				    "anio", YEAR([Date]),
+				    "trimestre", QUARTER([Date]),
+				    "trimestre_nombre", "T" & QUARTER([Date]),
+				    "anio_trimestre", YEAR([Date]) & "-T" & QUARTER([Date]),
+				    "mes", MONTH([Date]),
+				    "mes_nombre", SWITCH(MONTH([Date]), 1, "enero", 2, "febrero", 3, "marzo", 4, "abril", 5, "mayo", 6, "junio", 7, "julio", 8, "agosto", 9, "septiembre", 10, "octubre", 11, "noviembre", 12, "diciembre"),
+				    "mes_corto", SWITCH(MONTH([Date]), 1, "ene", 2, "feb", 3, "mar", 4, "abr", 5, "may", 6, "jun", 7, "jul", 8, "ago", 9, "sep", 10, "oct", 11, "nov", 12, "dic"),
+				    "anio_mes", FORMAT([Date], "yyyy-MM"),
+				    "anio_mes_orden", YEAR([Date]) * 100 + MONTH([Date]),
+				    "dia", DAY([Date]),
+				    "dia_semana_num", WEEKDAY([Date], 2),
+				    "dia_semana", SWITCH(WEEKDAY([Date], 2), 1, "lunes", 2, "martes", 3, "miércoles", 4, "jueves", 5, "viernes", 6, "sábado", 7, "domingo"),
+				    "es_fin_de_semana", WEEKDAY([Date], 2) > 5,
+				    "semana_iso", WEEKNUM([Date], 21),
+				    "es_fin_de_mes", [Date] = EOMONTH([Date], 0),
+				    "es_cierre_trimestre", [Date] = EOMONTH([Date], 0) && MONTH([Date]) IN { 3, 6, 9, 12 }
+				)
+

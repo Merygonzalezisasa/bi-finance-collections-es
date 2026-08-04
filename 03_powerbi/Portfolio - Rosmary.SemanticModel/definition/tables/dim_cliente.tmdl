@@ -1,0 +1,62 @@
+table dim_cliente
+	lineageTag: 4a64f21c-dc1c-408a-800c-a4eb44eff1dc
+
+	column cliente_id
+		dataType: int64
+		lineageTag: 6da755e9-f2be-4ef5-b200-a13464b33b63
+		summarizeBy: none
+		sourceColumn: cliente_id
+
+	column nombre
+		dataType: string
+		lineageTag: 5a4bd5fb-460b-452d-a5b5-6bde05d5cb46
+		sourceColumn: nombre
+
+	column sector
+		dataType: string
+		lineageTag: 7de74880-1728-4396-95af-3fdda625fdc1
+		sourceColumn: sector
+
+	column segmento
+		dataType: string
+		lineageTag: b00e98d4-e06c-485b-aef1-762c5361dbe7
+		sourceColumn: segmento
+
+	column comunidad_autonoma
+		dataType: string
+		lineageTag: f35bb29d-3d3f-46a7-bc5c-a9c737f0ed6a
+		sourceColumn: comunidad_autonoma
+
+	column fecha_alta
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: 1f04a691-9e90-4e4d-bab0-2d40641cd93d
+		summarizeBy: none
+		sourceColumn: fecha_alta
+
+	column canal_captacion
+		dataType: string
+		lineageTag: 13a41f18-c385-4833-af92-ea0af0fc6276
+		sourceColumn: canal_captacion
+
+	column dso_pactado
+		dataType: int64
+		lineageTag: 2c7af935-0f7b-435a-b074-0b222d15b579
+		summarizeBy: none
+		sourceColumn: dso_pactado
+
+	column sensibilidad_euribor
+		dataType: decimal
+		lineageTag: 50a0a0ac-4e54-43d3-8f58-b4a27dc297cc
+		summarizeBy: none
+		sourceColumn: sensibilidad_euribor
+
+	partition dim_cliente-Partition = m
+		mode: import
+		source =
+				let
+				    Origen = PostgreSQL.Database("localhost:5432", "finance_analytics"),
+				    Datos = Origen{[Schema="finance", Item="dim_cliente"]}[Data]
+				in
+				    Datos
+

@@ -1,0 +1,44 @@
+table dim_servicio
+	lineageTag: a1b450b0-4593-4de9-8672-73d0c410c2dc
+
+	column servicio_id
+		dataType: int64
+		lineageTag: 0ac8d6d7-efc4-4f44-8ed9-9c9df3a25341
+		summarizeBy: none
+		sourceColumn: servicio_id
+
+	column linea_servicio
+		dataType: string
+		lineageTag: 923e01d0-5306-40ee-817c-053516751d2b
+		sourceColumn: linea_servicio
+
+	column servicio
+		dataType: string
+		lineageTag: cf5fc289-e982-4764-8fc4-cbbf6eec45c7
+		sourceColumn: servicio
+
+	column tarifa_base
+		dataType: decimal
+		lineageTag: 96cd93b2-b484-4cd0-84f9-6a4ed1ac60d8
+		summarizeBy: none
+		sourceColumn: tarifa_base
+
+	column tipo_facturacion
+		dataType: string
+		lineageTag: 4f0b1e5b-e247-43e6-8d8b-6283aa06c66e
+		sourceColumn: tipo_facturacion
+
+	column indexado_ipc
+		dataType: boolean
+		lineageTag: 9d3c93a5-662d-466f-8466-40b448fe0641
+		sourceColumn: indexado_ipc
+
+	partition dim_servicio-Partition = m
+		mode: import
+		source =
+				let
+				    Origen = PostgreSQL.Database("localhost:5432", "finance_analytics"),
+				    Datos = Origen{[Schema="finance", Item="dim_servicio"]}[Data]
+				in
+				    Datos
+

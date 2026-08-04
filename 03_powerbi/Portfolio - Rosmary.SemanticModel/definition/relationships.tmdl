@@ -1,0 +1,38 @@
+relationship fact_facturas_cliente_id_dim_cliente_cliente_id
+	fromColumn: fact_facturas.cliente_id
+	toColumn: dim_cliente.cliente_id
+
+relationship fact_facturas_servicio_id_dim_servicio_servicio_id
+	fromColumn: fact_facturas.servicio_id
+	toColumn: dim_servicio.servicio_id
+
+relationship fact_facturas_fecha_emision_Calendario_Date
+	fromColumn: fact_facturas.fecha_emision
+	toColumn: Calendario.Date
+
+relationship fact_facturas_fecha_vencimiento_Calendario_Date
+	isActive: false
+	fromColumn: fact_facturas.fecha_vencimiento
+	toColumn: Calendario.Date
+
+relationship fact_facturas_fecha_cobro_Calendario_Date
+	isActive: false
+	fromColumn: fact_facturas.fecha_cobro
+	toColumn: Calendario.Date
+
+relationship dim_contexto_macro_fecha_Calendario_Date
+	fromColumn: dim_contexto_macro.fecha
+	toColumn: Calendario.Date
+
+relationship feriado_comunidad_fecha_Calendario_Date
+	fromColumn: feriado_comunidad.fecha
+	toColumn: Calendario.Date
+
+relationship feriado_comunidad_codigo_dim_comunidad_codigo
+	fromColumn: feriado_comunidad.codigo
+	toColumn: dim_comunidad.codigo
+
+relationship dim_cliente_comunidad_autonoma_dim_comunidad_comunidad
+	fromColumn: dim_cliente.comunidad_autonoma
+	toColumn: dim_comunidad.comunidad
+

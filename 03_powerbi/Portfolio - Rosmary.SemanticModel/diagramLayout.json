@@ -7,7 +7,112 @@
         "x": 0,
         "y": 0
       },
-      "nodes": [],
+      "nodes": [
+        {
+          "location": {
+            "x": 0,
+            "y": 2
+          },
+          "nodeIndex": "dim_cliente",
+          "nodeLineageTag": "4a64f21c-dc1c-408a-800c-a4eb44eff1dc",
+          "size": {
+            "height": 296,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 284,
+            "y": 62
+          },
+          "nodeIndex": "dim_contexto_macro",
+          "nodeLineageTag": "4e33fdb4-6311-4bc6-9e81-573bc57ed161",
+          "size": {
+            "height": 176,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 568,
+            "y": 38
+          },
+          "nodeIndex": "dim_servicio",
+          "nodeLineageTag": "a1b450b0-4593-4de9-8672-73d0c410c2dc",
+          "size": {
+            "height": 224,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 852,
+            "y": 0
+          },
+          "nodeIndex": "fact_facturas",
+          "nodeLineageTag": "f3649bef-6c76-4a43-91d5-f05bce0843e1",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1136,
+            "y": 0
+          },
+          "nodeIndex": "Calendario",
+          "nodeLineageTag": "6186b7b4-72f1-4ade-86ad-a6859979a09f",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1704,
+            "y": 86
+          },
+          "nodeIndex": "dim_comunidad",
+          "nodeLineageTag": "d7fb9be6-df8b-45b2-afa6-af1ff1302cff",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1988,
+            "y": 62
+          },
+          "nodeIndex": "feriado_comunidad",
+          "nodeLineageTag": "a4246be2-60b2-4773-a0ce-ad3a862af379",
+          "size": {
+            "height": 176,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 2272,
+            "y": 50
+          },
+          "nodeIndex": "_Medidas",
+          "nodeLineageTag": "980b31e1-0cd7-4442-9843-5201c27f9b67",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 0
+        }
+      ],
       "name": "Todas las tablas",
       "zoomValue": 100,
       "pinKeyFieldsToTop": false,

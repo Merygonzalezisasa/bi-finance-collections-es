@@ -8,7 +8,16 @@ model Model
 
 annotation __PBI_TimeIntelligenceEnabled = 1
 
-annotation PBI_ProTooling = ["DevMode"]
+annotation PBI_ProTooling = ["DevMode","MCP-PBIModeling"]
+
+ref table fact_facturas
+ref table dim_cliente
+ref table dim_servicio
+ref table dim_contexto_macro
+ref table Calendario
+ref table dim_comunidad
+ref table feriado_comunidad
+ref table _Medidas
 
 ref cultureInfo es-ES
 

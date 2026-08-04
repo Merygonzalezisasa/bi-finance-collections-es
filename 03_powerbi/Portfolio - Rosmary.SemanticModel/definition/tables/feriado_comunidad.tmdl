@@ -1,0 +1,42 @@
+/// Puente festivo x comunidad: una fila por festivo y comunidad que lo celebra
+table feriado_comunidad
+	lineageTag: a4246be2-60b2-4773-a0ce-ad3a862af379
+
+	column fecha
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: 522fb775-ea7a-461c-9660-456517c2a168
+		summarizeBy: none
+		sourceColumn: fecha
+
+	column nombre
+		dataType: string
+		lineageTag: e1bbc71e-0e6f-4c46-bd98-7702e2bc7e31
+		sourceColumn: nombre
+
+	column codigo
+		dataType: string
+		lineageTag: 9803a777-4a71-4921-8ea7-a5c974d6d9b3
+		sourceColumn: codigo
+
+	column es_nacional
+		dataType: boolean
+		lineageTag: 473d4fc0-c555-4bcd-9797-dc5060f6ad3d
+		sourceColumn: es_nacional
+
+	partition feriado_comunidad-Partition = m
+		mode: import
+		source =
+				let
+				    Origen = PostgreSQL.Database("localhost:5432", "finance_analytics"),
+				    Feriados = Origen{[Schema="finance", Item="feriados"]}[Data],
+				    TodasCA = "ES-AN,ES-AR,ES-AS,ES-CB,ES-CL,ES-CM,ES-CN,ES-CT,ES-EX,ES-GA,ES-IB,ES-MC,ES-MD,ES-NC,ES-PV,ES-RI,ES-VC",
+				    MarcaNacional = Table.AddColumn(Feriados, "es_nacional", each Text.Lower(Text.Trim([comunidades])) = "nacional", type logical),
+				    Normaliza = Table.AddColumn(MarcaNacional, "lista", each if [es_nacional] then TodasCA else [comunidades], type text),
+				    Trocea = Table.AddColumn(Normaliza, "codigo", each List.Transform(Text.Split([lista], ","), Text.Trim)),
+				    Expande = Table.ExpandListColumn(Trocea, "codigo"),
+				    Limpia = Table.SelectRows(Expande, each [codigo] <> null and Text.Trim([codigo]) <> ""),
+				    Final = Table.Distinct(Table.SelectColumns(Limpia, {"fecha", "nombre", "codigo", "es_nacional"}))
+				in
+				    Final
+

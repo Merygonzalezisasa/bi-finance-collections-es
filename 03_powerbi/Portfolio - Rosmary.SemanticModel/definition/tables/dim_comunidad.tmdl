@@ -1,0 +1,43 @@
+/// Mapeo ISO 3166-2:ES a nombre de comunidad autonoma
+table dim_comunidad
+	lineageTag: d7fb9be6-df8b-45b2-afa6-af1ff1302cff
+
+	column codigo
+		dataType: string
+		lineageTag: d2379777-c21f-4b99-ae54-5fb393f24299
+		sourceColumn: codigo
+
+	column comunidad
+		dataType: string
+		lineageTag: bf9846fd-5618-49f5-bf8d-873631c82fb6
+		sourceColumn: comunidad
+
+	partition dim_comunidad-Partition = m
+		mode: import
+		source =
+				let
+				    Fuente = #table(
+				        type table [codigo = text, comunidad = text],
+				        {
+				            {"ES-AN", "Andalucía"},
+				            {"ES-AR", "Aragón"},
+				            {"ES-AS", "Asturias"},
+				            {"ES-CB", "Cantabria"},
+				            {"ES-CL", "Castilla y León"},
+				            {"ES-CM", "Castilla-La Mancha"},
+				            {"ES-CN", "Canarias"},
+				            {"ES-CT", "Cataluña"},
+				            {"ES-EX", "Extremadura"},
+				            {"ES-GA", "Galicia"},
+				            {"ES-IB", "Islas Baleares"},
+				            {"ES-MC", "Murcia"},
+				            {"ES-MD", "Madrid"},
+				            {"ES-NC", "Navarra"},
+				            {"ES-PV", "País Vasco"},
+				            {"ES-RI", "La Rioja"},
+				            {"ES-VC", "Comunidad Valenciana"}
+				        }
+				    )
+				in
+				    Fuente
+

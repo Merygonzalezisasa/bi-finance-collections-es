@@ -1,0 +1,291 @@
+/// Tabla contenedora de medidas. No contiene datos.
+table _Medidas
+	lineageTag: 980b31e1-0cd7-4442-9843-5201c27f9b67
+
+	/// Importe total facturado con IVA.
+	measure Facturado = SUM(fact_facturas[importe_total])
+		formatString: #,##0 €
+		displayFolder: 01 Facturacion
+		lineageTag: a266f51a-5e5d-4ebb-a9b2-e6ce5e54a739
+
+	/// Base imponible sin IVA.
+	measure 'Facturado neto' = SUM(fact_facturas[importe_neto])
+		formatString: #,##0 €
+		displayFolder: 01 Facturacion
+		lineageTag: ce92fc55-a514-4269-9e07-344ed5da5453
+
+	/// IVA repercutido.
+	measure IVA = SUM(fact_facturas[iva])
+		formatString: #,##0 €
+		displayFolder: 01 Facturacion
+		lineageTag: 57791786-6108-4ac8-983e-5f0d2e2527ed
+
+	/// Numero de facturas emitidas.
+	measure 'N facturas' = COUNTROWS(fact_facturas)
+		formatString: #,##0
+		displayFolder: 01 Facturacion
+		lineageTag: de0c8d9a-ed6b-4f1a-b567-677bfba5a172
+
+	/// Importe medio por factura.
+	measure 'Ticket medio' = DIVIDE([Facturado], [N facturas])
+		formatString: #,##0 €
+		displayFolder: 01 Facturacion
+		lineageTag: 81527d59-95e6-48af-9979-74a875fc6a02
+
+	/// Clientes distintos con facturacion en el contexto.
+	measure 'Clientes activos' = DISTINCTCOUNT(fact_facturas[cliente_id])
+		formatString: #,##0
+		displayFolder: 01 Facturacion
+		lineageTag: 29a9de92-9a3f-41ba-9c8c-dfe25748213d
+
+	/// Facturacion media por cliente activo.
+	measure 'Facturado por cliente' = DIVIDE([Facturado], [Clientes activos])
+		formatString: #,##0 €
+		displayFolder: 01 Facturacion
+		lineageTag: d1e9d72d-625b-4d60-9022-72f79311fa5f
+
+	/// Importe de facturas ya cobradas.
+	measure Cobrado = CALCULATE([Facturado], fact_facturas[estado] = "cobrada")
+		formatString: #,##0 €
+		displayFolder: 02 Cobros
+		lineageTag: f99de076-2f7e-430d-b086-b083235612c5
+
+	/// Importe pendiente de cobro, vencido o no.
+	measure Pendiente = CALCULATE([Facturado], fact_facturas[estado] IN { "pendiente", "vencida" })
+		formatString: #,##0 €
+		displayFolder: 02 Cobros
+		lineageTag: 56f9cc22-c6df-4e71-9f5e-6bb0f6938110
+
+	/// Importe pendiente que ya paso su vencimiento.
+	measure Vencido = CALCULATE([Facturado], fact_facturas[estado] = "vencida")
+		formatString: #,##0 €
+		displayFolder: 02 Cobros
+		lineageTag: 12d300e4-4466-40d5-b687-d40df3632cce
+
+	/// Porcentaje del facturado ya cobrado.
+	measure '% cobrado' = DIVIDE([Cobrado], [Facturado])
+		formatString: 0.0%
+		displayFolder: 02 Cobros
+		lineageTag: f91cdb74-c3d4-4e22-bdcd-a2e4cbb8d293
+
+	/// Porcentaje del facturado en situacion de impago.
+	measure '% vencido' = DIVIDE([Vencido], [Facturado])
+		formatString: 0.0%
+		displayFolder: 02 Cobros
+		lineageTag: bec5b419-1dc5-4b29-90f9-1c161f62453c
+
+	/// Numero de facturas pendientes de cobro.
+	measure 'N facturas pendientes' = CALCULATE([N facturas], fact_facturas[estado] IN { "pendiente", "vencida" })
+		formatString: #,##0
+		displayFolder: 02 Cobros
+		lineageTag: 8934aade-0798-45f1-a13e-6ed60dc1cf9f
+
+	/// Numero de facturas vencidas sin cobrar.
+	measure 'N facturas vencidas' = CALCULATE([N facturas], fact_facturas[estado] = "vencida")
+		formatString: #,##0
+		displayFolder: 02 Cobros
+		lineageTag: 0778da41-c05a-45f7-8461-3e6bed4b7625
+
+	/// Ultima fecha de emision en los datos. Referencia para el aging.
+	measure 'Fecha de corte' = MAXX(ALL(fact_facturas), fact_facturas[fecha_emision])
+		formatString: yyyy-mm-dd
+		displayFolder: 00 Referencia
+		lineageTag: 23add8aa-839f-42e4-a1c3-a9222776eb01
+
+	/// Media de dias entre emision y cobro, solo facturas cobradas.
+	measure 'Dias hasta cobro' = AVERAGEX(FILTER(fact_facturas, NOT ISBLANK(fact_facturas[fecha_cobro])), fact_facturas[dias_hasta_cobro])
+		formatString: #,##0.0
+		displayFolder: 03 Plazos
+		lineageTag: 879df3cb-748f-4330-bb4c-5502d209c736
+
+	/// Media de dias de retraso sobre el vencimiento. Negativo si se paga antes.
+	measure 'Retraso medio' = AVERAGEX(FILTER(fact_facturas, NOT ISBLANK(fact_facturas[fecha_cobro])), fact_facturas[retraso_dias])
+		formatString: #,##0.0
+		displayFolder: 03 Plazos
+		lineageTag: b1560d72-b68e-486e-9528-855543844a13
+
+	/// Retraso medio ponderado por importe, no por numero de facturas.
+	measure 'Retraso medio ponderado' =
+			VAR Cobradas = FILTER(fact_facturas, NOT ISBLANK(fact_facturas[fecha_cobro]))
+			RETURN
+			    DIVIDE(
+			        SUMX(Cobradas, fact_facturas[retraso_dias] * fact_facturas[importe_total]),
+			        SUMX(Cobradas, fact_facturas[importe_total])
+			    )
+		formatString: #,##0.0
+		displayFolder: 03 Plazos
+		lineageTag: b2d1e0d0-9e4d-40c5-a720-8f1e0975040d
+
+	/// Porcentaje de facturas cobradas fuera de plazo.
+	measure '% facturas con retraso' =
+			DIVIDE(
+			    CALCULATE([N facturas], fact_facturas[cobrada_con_retraso] = TRUE()),
+			    CALCULATE([N facturas], NOT ISBLANK(fact_facturas[fecha_cobro]))
+			)
+		formatString: 0.0%
+		displayFolder: 03 Plazos
+		lineageTag: d8881ef3-971c-4c5c-9c98-7d6d691dbf40
+
+	/// Days Sales Outstanding: pendiente sobre facturado por los dias del periodo.
+	measure DSO =
+			VAR Dias = COUNTROWS(VALUES(Calendario[Date]))
+			RETURN
+			    DIVIDE([Pendiente], [Facturado]) * Dias
+		formatString: #,##0.0
+		displayFolder: 03 Plazos
+		lineageTag: 2ce280f7-c5bd-4ddc-9c1c-e42a14cdbe60
+
+	/// DSO pactado medio, ponderado por importe facturado.
+	measure 'DSO pactado' =
+			DIVIDE(
+			    SUMX(fact_facturas, fact_facturas[importe_total] * RELATED(dim_cliente[dso_pactado])),
+			    [Facturado]
+			)
+		formatString: #,##0.0
+		displayFolder: 03 Plazos
+		lineageTag: 27765a7d-91c4-43d3-bdc7-af1d4a1fd53d
+
+	/// Diferencia entre los dias reales hasta cobro y el DSO pactado.
+	measure 'Desvio sobre DSO pactado' = [Dias hasta cobro] - [DSO pactado]
+		formatString: #,##0.0
+		displayFolder: 03 Plazos
+		lineageTag: 798b738e-735d-402d-b174-6776fd423a52
+
+	/// Media de dias vencidos de la deuda pendiente.
+	measure 'Dias vencidos medios' = AVERAGEX(FILTER(fact_facturas, NOT ISBLANK(fact_facturas[dias_vencido]) && fact_facturas[dias_vencido] > 0), fact_facturas[dias_vencido])
+		formatString: #,##0.0
+		displayFolder: 04 Aging
+		lineageTag: df69e86e-6970-497e-b502-1e4838284c48
+
+	/// Deuda vencida hace mas de 90 dias.
+	measure 'Pendiente mas de 90 dias' = CALCULATE([Pendiente], fact_facturas[bucket_aging] = "Mas de 90 dias")
+		formatString: #,##0 €
+		displayFolder: 04 Aging
+		lineageTag: 26617d2d-0412-40c1-84e3-4a6e1af52177
+
+	/// Peso de la deuda de mas de 90 dias sobre el total pendiente.
+	measure '% pendiente mas de 90 dias' = DIVIDE([Pendiente mas de 90 dias], [Pendiente])
+		formatString: 0.0%
+		displayFolder: 04 Aging
+		lineageTag: ce94e830-2e69-4ba9-a47f-eafd4ed354c1
+
+	/// Facturado en el mismo periodo del anio anterior.
+	measure 'Facturado AA' = CALCULATE([Facturado], SAMEPERIODLASTYEAR(Calendario[Date]))
+		formatString: #,##0 €
+		displayFolder: 05 Tiempo
+		lineageTag: 509d00eb-4f5e-44c8-bb9c-f1d9ba767506
+
+	/// Variacion porcentual respecto al anio anterior.
+	measure 'Var % AA' = DIVIDE([Facturado] - [Facturado AA], [Facturado AA])
+		formatString: +0.0%;-0.0%;0.0%
+		displayFolder: 05 Tiempo
+		lineageTag: 36d7d51f-9cf3-499e-a0b2-54db568528ab
+
+	/// Facturado acumulado del anio en curso.
+	measure 'Facturado YTD' = TOTALYTD([Facturado], Calendario[Date])
+		formatString: #,##0 €
+		displayFolder: 05 Tiempo
+		lineageTag: 9e8be460-1476-4e68-b4a4-52e200c74d03
+
+	/// Facturado acumulado del anio anterior hasta la misma fecha.
+	measure 'Facturado YTD AA' = CALCULATE([Facturado YTD], SAMEPERIODLASTYEAR(Calendario[Date]))
+		formatString: #,##0 €
+		displayFolder: 05 Tiempo
+		lineageTag: 635928c1-c827-4a3c-843a-2e170b754a22
+
+	/// Media movil de facturacion de los ultimos tres meses.
+	measure 'Facturado media movil 3M' =
+			VAR UltimaFecha = MAX(Calendario[Date])
+			VAR Ventana = DATESINPERIOD(Calendario[Date], UltimaFecha, -3, MONTH)
+			RETURN
+			    DIVIDE(CALCULATE([Facturado], Ventana), 3)
+		formatString: #,##0 €
+		displayFolder: 05 Tiempo
+		lineageTag: 85587d55-392d-4eba-a76b-5cc7a1041049
+
+	/// Posicion del cliente por facturacion.
+	measure 'Ranking cliente' =
+			IF(
+			    NOT ISBLANK([Facturado]),
+			    RANKX(ALLSELECTED(dim_cliente[nombre]), [Facturado], , DESC, DENSE)
+			)
+		formatString: #,##0
+		displayFolder: 06 Concentracion
+		lineageTag: 8bcb79fa-d9bb-408b-a9d2-4cb68f5a4497
+
+	/// Porcentaje acumulado de facturacion ordenando clientes de mayor a menor.
+	measure '% acumulado clientes' =
+			VAR Actual = [Facturado]
+			VAR Total = CALCULATE([Facturado], ALLSELECTED(dim_cliente[nombre]))
+			VAR Acumulado =
+			    SUMX(
+			        FILTER(
+			            ADDCOLUMNS(ALLSELECTED(dim_cliente[nombre]), "@imp", [Facturado]),
+			            [@imp] >= Actual
+			        ),
+			        [@imp]
+			    )
+			RETURN
+			    DIVIDE(Acumulado, Total)
+		formatString: 0.0%
+		displayFolder: 06 Concentracion
+		lineageTag: b01ce8da-9c1c-488c-ae21-7238df0186d0
+
+	/// Clasificacion ABC: A hasta el 80% acumulado, B hasta el 95%, C el resto.
+	measure 'Clase ABC' =
+			VAR Pct = [% acumulado clientes]
+			RETURN
+			    SWITCH(
+			        TRUE(),
+			        ISBLANK(Pct), BLANK(),
+			        Pct <= 0.8, "A",
+			        Pct <= 0.95, "B",
+			        "C"
+			    )
+		displayFolder: 06 Concentracion
+		lineageTag: 3aa44e6d-692e-46f9-a1e9-6d4f931f9145
+
+	/// Peso del cliente sobre el total facturado del contexto.
+	measure '% sobre total' = DIVIDE([Facturado], CALCULATE([Facturado], ALLSELECTED(dim_cliente[nombre])))
+		formatString: 0.0%
+		displayFolder: 06 Concentracion
+		lineageTag: 1c3c3922-4200-46b6-a52d-1251b18a33d3
+
+	/// Festivos aplicables en el contexto. Si no hay comunidad seleccionada usa solo los nacionales.
+	measure Festivos =
+			VAR HayCA = ISFILTERED(dim_comunidad[comunidad]) || ISFILTERED(dim_comunidad[codigo]) || ISFILTERED(dim_cliente[comunidad_autonoma])
+			VAR Festivos =
+			    CALCULATETABLE(
+			        VALUES(feriado_comunidad[fecha]),
+			        FILTER(ALL(feriado_comunidad[es_nacional]), HayCA || feriado_comunidad[es_nacional] = TRUE())
+			    )
+			RETURN
+			    COUNTROWS(Festivos) + 0
+		formatString: #,##0
+		displayFolder: Calendario laboral
+		lineageTag: f49695d5-ed67-4da0-bc2d-aac8f8b73ad3
+
+	/// Dias laborables: excluye fines de semana y los festivos de la comunidad en contexto.
+	measure 'Dias habiles' =
+			VAR HayCA = ISFILTERED(dim_comunidad[comunidad]) || ISFILTERED(dim_comunidad[codigo]) || ISFILTERED(dim_cliente[comunidad_autonoma])
+			VAR DiasEntreSemana = CALCULATETABLE(VALUES(Calendario[Date]), Calendario[es_fin_de_semana] = FALSE())
+			VAR Festivos =
+			    CALCULATETABLE(
+			        VALUES(feriado_comunidad[fecha]),
+			        FILTER(ALL(feriado_comunidad[es_nacional]), HayCA || feriado_comunidad[es_nacional] = TRUE())
+			    )
+			RETURN
+			    COUNTROWS(EXCEPT(DiasEntreSemana, Festivos)) + 0
+		formatString: #,##0
+		displayFolder: Calendario laboral
+		lineageTag: 1748fef9-b8c5-4d07-bd4f-37e778aa5c61
+
+	column Value
+		isHidden
+		isNameInferred
+		sourceColumn: [Value]
+
+	partition _Medidas = calculated
+		mode: import
+		source = { BLANK() }
+
