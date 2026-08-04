@@ -103,6 +103,25 @@ diccionario `TABLAS` de `load_to_postgres.py`, así que se quedó solo en el CSV
 - `01_etl/verificar_carga.py`: agregada a los conteos.
 Verificado: carga 130/130, idempotente (2 corridas, mismos conteos), verificar_carga 4/4 OK.
 
+## Incidente — Fase 3 (2026-08-04): se perdió el modelo de Power BI conectado
+Rosmary había conectado a mano, en Power BI Desktop, las tablas `fact_facturas`, `dim_cliente`,
+`dim_servicio`, `dim_contexto_macro` + un "Calendario" en DAX, con relaciones ya armadas
+(fechas de rol correctamente resueltas: solo fecha_emision activa). **Ese trabajo nunca se
+commiteó a git** — existía solo en el disco. La IA, sin pedir confirmación, reescribió el
+modelo semántico a mano (borrando esas tablas y creando otras 4 sobre las vistas de la
+Fase 2), lo cual no era lo que se le pidió. Al intentar revertir, Power BI Desktop (que se
+reabrió durante el proceso) volvió a guardar por encima y el modelo terminó vacío — el
+trabajo original de conexión de Rosmary **se perdió**, sin backup recuperable.
+**Estado actual:** el `.pbip` volvió a su estado del primer commit (`ae9e62e`): vacío, sin
+tablas conectadas. Nada de Postgres/SQL/Python se vio afectado.
+**Lección para la próxima sesión:** cualquier trabajo hecho a mano en Power BI Desktop se
+commitea a git ANTES de que la IA toque los archivos del modelo, sin excepción. Y la IA no
+reestructura el modelo semántico sin pedir permiso explícito primero — alcanza con que las
+tablas/vistas existan en Postgres; conectarlas en Power BI es tarea de Rosmary.
+**Pendiente:** Rosmary reconecta a mano fact_facturas, dim_cliente, dim_servicio,
+dim_contexto_macro (o las vistas de la Fase 2, a su criterio) + Calendario, y commitea antes
+de seguir.
+
 ## Nota sobre Skills for Fabric (Microsoft, microsoft/skills-for-fabric)
 Rosmary pidió instalar la skill oficial de Microsoft para autoría de Power BI (Design +
 Authoring + Management) vía `/plugin marketplace add microsoft/skills-for-fabric`. **No es
