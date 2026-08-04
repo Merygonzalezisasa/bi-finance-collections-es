@@ -1,0 +1,70 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
+  "name": "table-pareto-clientes",
+  "position": { "x": 640, "y": 126, "z": 1, "height": 290, "width": 632, "tabOrder": 7 },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": { "SourceRef": { "Entity": "dim_cliente" } },
+                  "Property": "nombre"
+                }
+              },
+              "queryRef": "dim_cliente.nombre",
+              "nativeQueryRef": "nombre"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": { "SourceRef": { "Entity": "_Medidas" } },
+                  "Property": "Facturado"
+                }
+              },
+              "queryRef": "_Medidas.Facturado",
+              "nativeQueryRef": "Facturado"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": { "SourceRef": { "Entity": "_Medidas" } },
+                  "Property": "% acumulado clientes"
+                }
+              },
+              "queryRef": "_Medidas.% acumulado clientes",
+              "nativeQueryRef": "% acumulado clientes"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": { "SourceRef": { "Entity": "_Medidas" } },
+                  "Property": "Clase ABC"
+                }
+              },
+              "queryRef": "_Medidas.Clase ABC",
+              "nativeQueryRef": "Clase ABC"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": { "SourceRef": { "Entity": "_Medidas" } },
+                "Property": "Facturado"
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    }
+  }
+}

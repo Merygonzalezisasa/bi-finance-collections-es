@@ -1,0 +1,26 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
+  "name": "card-desvio-dso",
+  "position": { "x": 512, "y": 8, "z": 1, "height": 110, "width": 246, "tabOrder": 3 },
+  "visual": {
+    "visualType": "cardVisual",
+    "query": {
+      "queryState": {
+        "Data": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": { "SourceRef": { "Entity": "_Medidas" } },
+                  "Property": "Desvio sobre DSO pactado"
+                }
+              },
+              "queryRef": "_Medidas.Desvio sobre DSO pactado",
+              "nativeQueryRef": "Desvio sobre DSO pactado"
+            }
+          ]
+        }
+      }
+    }
+  }
+}

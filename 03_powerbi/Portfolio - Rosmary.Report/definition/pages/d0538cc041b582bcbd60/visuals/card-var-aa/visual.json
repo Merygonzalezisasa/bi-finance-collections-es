@@ -1,0 +1,26 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
+  "name": "card-var-aa",
+  "position": { "x": 1016, "y": 8, "z": 1, "height": 110, "width": 246, "tabOrder": 5 },
+  "visual": {
+    "visualType": "cardVisual",
+    "query": {
+      "queryState": {
+        "Data": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": { "SourceRef": { "Entity": "_Medidas" } },
+                  "Property": "Var % AA"
+                }
+              },
+              "queryRef": "_Medidas.Var % AA",
+              "nativeQueryRef": "Var % AA"
+            }
+          ]
+        }
+      }
+    }
+  }
+}
