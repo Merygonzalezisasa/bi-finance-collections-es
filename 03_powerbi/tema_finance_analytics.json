@@ -1,0 +1,67 @@
+{
+  "name": "Finance Analytics España",
+  "dataColors": [
+    "#1B2A4A",
+    "#F4C9A8",
+    "#D9784F",
+    "#4A90A4",
+    "#E8B04B",
+    "#8B95A5",
+    "#6B7A99",
+    "#C97B5F"
+  ],
+  "background": "#FFFFFF",
+  "foreground": "#1B2A4A",
+  "tableAccent": "#1B2A4A",
+  "good": "#3FA65B",
+  "bad": "#D9534F",
+  "neutral": "#E8B04B",
+  "maximum": "#1B2A4A",
+  "center": "#D9784F",
+  "minimum": "#F4C9A8",
+  "textClasses": {
+    "label": { "color": "#4A4A4A", "fontFace": "Segoe UI", "fontSize": 9 },
+    "callout": { "color": "#1B2A4A", "fontFace": "Segoe UI Semibold", "fontSize": 28 },
+    "title": { "color": "#1B2A4A", "fontFace": "Segoe UI Semibold", "fontSize": 12 },
+    "header": { "color": "#FFFFFF", "fontFace": "Segoe UI Semibold", "fontSize": 10 }
+  },
+  "visualStyles": {
+    "*": {
+      "*": {
+        "background": [
+          { "color": { "solid": { "color": "#FFFFFF" } }, "transparency": 0 }
+        ],
+        "border": [
+          { "show": true, "color": { "solid": { "color": "#E4E7EC" } } }
+        ],
+        "visualHeader": [
+          {
+            "background": { "solid": { "color": "#FFFFFF" } },
+            "foreground": { "solid": { "color": "#1B2A4A" } }
+          }
+        ]
+      }
+    },
+    "card": {
+      "*": {
+        "background": [
+          { "color": { "solid": { "color": "#F4C9A8" } }, "transparency": 0 }
+        ]
+      }
+    },
+    "cardVisual": {
+      "*": {
+        "background": [
+          { "color": { "solid": { "color": "#F4C9A8" } }, "transparency": 0 }
+        ]
+      }
+    },
+    "page": {
+      "*": {
+        "background": [
+          { "color": { "solid": { "color": "#F4F5F7" } }, "transparency": 0 }
+        ]
+      }
+    }
+  }
+}

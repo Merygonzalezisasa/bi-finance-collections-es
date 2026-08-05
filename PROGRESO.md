@@ -124,16 +124,25 @@ de seguir.
 
 ## Nota sobre Skills for Fabric (Microsoft, microsoft/skills-for-fabric)
 Rosmary pidió instalar la skill oficial de Microsoft para autoría de Power BI (Design +
-Authoring + Management) vía `/plugin marketplace add microsoft/skills-for-fabric`. **No es
-posible en este entorno**: la extensión de Claude Code para VS Code no soporta el sistema de
-marketplace de plugins (`/plugin` no existe acá) ni descubre skills locales por convención de
-archivos (`~/.claude/skills/` no existe, no hay `.claude/skills/` de proyecto). La lista de
-skills disponibles la fija la plataforma, no es extensible por el usuario en este setup.
-**Decisión:** en vez de la skill formal, cuando lleguemos a la Fase 3 (Power BI) se aplica el
-mismo conocimiento leyendo directamente la guía oficial de Microsoft Learn (Design/Authoring/
-Management skill overviews) — mismo resultado práctico, sin la infraestructura del plugin.
-Si en el futuro se quiere probar el Claude Code CLI real (terminal, fuera de VS Code), ahí sí
-podría soportar `/plugin`.
+Authoring + Management) vía `/plugin marketplace add microsoft/skills-for-fabric`.
+
+**Intento 1 (2026-08-04):** no es posible desde la extensión de Claude Code para VS Code —
+`/plugin` no existe en ese entorno, ni hay `~/.claude/skills/` local para poblar a mano.
+
+**Intento 2 (2026-08-05):** Rosmary instaló el Claude Code CLI real en una terminal aparte
+(`irm https://claude.ai/install.ps1 | iex`), lo actualizó a la última versión (2.1.222), y
+SÍ pudo agregar el marketplace (`/plugin marketplace add microsoft/skills-for-fabric` → OK).
+Pero `/plugin install fabric-skills@fabric-collection` falla con:
+`"Failed to install: This plugin uses a source type your Claude Code version does not support."`
+Es un **bug conocido de Claude Code** (no de Microsoft ni nuestro): varios issues abiertos en
+github.com/anthropics/claude-code describen el mismo mensaje —engañoso, no existe versión que
+lo arregle— para marketplaces cuyo manifiesto declara la fuente de cierta forma (ej. `"source":
+"."`) que el validador de plugins todavía no reconoce, incluso en la última versión.
+
+**Decisión final:** no se persigue más la skill formal. Se sigue aplicando el conocimiento de
+la documentación oficial de Microsoft Learn a mano (lo que ya se venía haciendo) — mismo
+resultado práctico. Si en un futuro Anthropic arregla el bug, se puede reintentar con
+`/plugin install fabric-skills@fabric-collection` en el Claude Code CLI real (no en VS Code).
 
 ## Dudas abiertas
 - ¿El forward fill del fin de semana (EUR/USD) puede sesgar la correlación? → revisar en la Fase 4
