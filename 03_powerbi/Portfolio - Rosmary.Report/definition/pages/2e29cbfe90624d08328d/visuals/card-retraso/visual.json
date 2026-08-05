@@ -1,13 +1,13 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
-  "name": "card-facturado",
+  "name": "card-retraso",
   "position": {
-    "x": 24,
+    "x": 774,
     "y": 96,
     "z": 1,
     "height": 112,
     "width": 232,
-    "tabOrder": 24
+    "tabOrder": 774
   },
   "visual": {
     "visualType": "cardVisual",
@@ -23,11 +23,11 @@
                       "Entity": "_Medidas"
                     }
                   },
-                  "Property": "Facturado"
+                  "Property": "Retraso medio"
                 }
               },
-              "queryRef": "_Medidas.Facturado",
-              "nativeQueryRef": "Facturado"
+              "queryRef": "_Medidas.Retraso medio",
+              "nativeQueryRef": "Retraso medio"
             }
           ]
         }
