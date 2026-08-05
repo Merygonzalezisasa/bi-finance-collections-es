@@ -139,10 +139,20 @@ github.com/anthropics/claude-code describen el mismo mensaje —engañoso, no ex
 lo arregle— para marketplaces cuyo manifiesto declara la fuente de cierta forma (ej. `"source":
 "."`) que el validador de plugins todavía no reconoce, incluso en la última versión.
 
-**Decisión final:** no se persigue más la skill formal. Se sigue aplicando el conocimiento de
-la documentación oficial de Microsoft Learn a mano (lo que ya se venía haciendo) — mismo
-resultado práctico. Si en un futuro Anthropic arregla el bug, se puede reintentar con
-`/plugin install fabric-skills@fabric-collection` en el Claude Code CLI real (no en VS Code).
+**Intento 3 (2026-08-05, más tarde): ÉXITO.** El bug dejó de reproducirse — no está claro si
+fue una actualización silenciosa de Claude Code o del manifiesto del marketplace, pero
+`powerbi-authoring@fabric-collection` quedó instalado correctamente (v0.3.10, instalado
+16:15 UTC). Verificado en sesión posterior:
+- `~/.claude/plugins/installed_plugins.json` lista `powerbi-authoring@fabric-collection` v0.3.10.
+- `~/.claude/plugins/known_marketplaces.json` tiene `fabric-collection` apuntando a
+  `github.com/microsoft/skills-for-fabric.git`.
+- Las 6 skills están en disco (`.../powerbi-authoring/0.3.10/skills/`) y disponibles para
+  invocar en el chat: `check-updates`, `semantic-model-authoring`, `powerbi-report-planning`,
+  `powerbi-report-design`, `powerbi-report-authoring`, `powerbi-report-management`.
+- El MCP server asociado (`powerbi-modeling-mcp`) también carga correctamente.
+
+**Decisión final:** se usa la skill formal de Microsoft de acá en adelante para Power BI
+(reemplaza el enfoque manual de leer Microsoft Learn a mano).
 
 ## Dudas abiertas
 - ¿El forward fill del fin de semana (EUR/USD) puede sesgar la correlación? → revisar en la Fase 4
