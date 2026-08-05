@@ -3,11 +3,11 @@
   "name": "txt-footer",
   "position": {
     "x": 24,
-    "y": 664,
+    "y": 656,
     "z": 0,
     "height": 32,
     "width": 1232,
-    "tabOrder": 20
+    "tabOrder": 4
   },
   "visual": {
     "visualType": "textbox",
@@ -19,7 +19,7 @@
               {
                 "textRuns": [
                   {
-                    "value": "Vencido = pendiente de cobro con fecha_vencimiento anterior al 30/06/2026 · % vencido = vencido / facturado · Retraso medio = fecha_cobro − fecha_vencimiento (solo facturas cobradas)",
+                    "value": "Ticket medio = facturado / nº de facturas, filtrado a dim_servicio[indexado_ipc] = verdadero · IPC: INE serie IPC251856 (variación anual) · IPC acumulado 2024-2026 = 1,0278 × 1,0267 = +5,6 % · Facturación 2026 hasta el 30/06",
                     "textStyle": {
                       "fontFamily": "Segoe UI",
                       "fontSize": "9px",

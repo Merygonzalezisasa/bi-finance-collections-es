@@ -1,5 +1,5 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
   "name": "slicer-segmento",
   "position": {
     "x": 920,
@@ -27,7 +27,8 @@
                 }
               },
               "queryRef": "dim_cliente.segmento",
-              "nativeQueryRef": "segmento"
+              "nativeQueryRef": "segmento",
+              "active": true
             }
           ]
         }

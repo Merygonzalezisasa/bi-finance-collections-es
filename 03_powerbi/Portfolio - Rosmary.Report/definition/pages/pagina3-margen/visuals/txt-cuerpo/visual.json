@@ -1,0 +1,191 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
+  "name": "txt-cuerpo",
+  "position": {
+    "x": 24,
+    "y": 460,
+    "z": 0,
+    "height": 180,
+    "width": 1232,
+    "tabOrder": 3
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "Qué muestra",
+                    "textStyle": {
+                      "fontFamily": "Segoe UI Semibold",
+                      "fontSize": "12px",
+                      "color": "#D9784F"
+                    }
+                  }
+                ],
+                "horizontalTextAlignment": "left"
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Los 25 servicios marcados como indexado_ipc son todos recurrentes, así que el ticket medio no está contaminado por cambio de mix: es precio puro. Pasó de 5.068 € (2024) a 5.104 € (2026), un +0,7 % en dos años y medio. El IPC del INE acumuló +5,6 % en el mismo periodo.",
+                    "textStyle": {
+                      "fontFamily": "Segoe UI",
+                      "fontSize": "11px",
+                      "color": "#1B2A4A"
+                    }
+                  }
+                ],
+                "horizontalTextAlignment": "left"
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": " ",
+                    "textStyle": {
+                      "fontFamily": "Segoe UI",
+                      "fontSize": "4px",
+                      "color": "#6B7A99"
+                    }
+                  }
+                ],
+                "horizontalTextAlignment": "left"
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Por qué importa",
+                    "textStyle": {
+                      "fontFamily": "Segoe UI Semibold",
+                      "fontSize": "12px",
+                      "color": "#D9784F"
+                    }
+                  }
+                ],
+                "horizontalTextAlignment": "left"
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Esos servicios facturan 46 M€ — el 35 % del total. Cada punto de IPC no repercutido no se recupera después: es margen que se pierde de forma permanente, y se compone año tras año. A este ritmo, en 2027 la brecha supera los 350 € por factura.",
+                    "textStyle": {
+                      "fontFamily": "Segoe UI",
+                      "fontSize": "11px",
+                      "color": "#1B2A4A"
+                    }
+                  }
+                ],
+                "horizontalTextAlignment": "left"
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": " ",
+                    "textStyle": {
+                      "fontFamily": "Segoe UI",
+                      "fontSize": "4px",
+                      "color": "#6B7A99"
+                    }
+                  }
+                ],
+                "horizontalTextAlignment": "left"
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Qué hacer",
+                    "textStyle": {
+                      "fontFamily": "Segoe UI Semibold",
+                      "fontSize": "12px",
+                      "color": "#D9784F"
+                    }
+                  }
+                ],
+                "horizontalTextAlignment": "left"
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Averiguar por qué la cláusula no se dispara. Si es un proceso manual que se olvida cada enero, automatizar la revisión contra la serie IPC251856 del INE. Si es una decisión comercial deliberada, dejar de llamarla “contrato indexado” y contabilizarla como lo que es: un descuento de ~4,6 % que hoy nadie aprueba explícitamente.",
+                    "textStyle": {
+                      "fontFamily": "Segoe UI",
+                      "fontSize": "11px",
+                      "color": "#1B2A4A"
+                    }
+                  }
+                ],
+                "horizontalTextAlignment": "left"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "border": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "padding": [
+        {
+          "properties": {
+            "top": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            },
+            "bottom": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            },
+            "left": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            },
+            "right": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

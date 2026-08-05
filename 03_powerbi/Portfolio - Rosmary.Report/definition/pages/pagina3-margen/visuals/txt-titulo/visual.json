@@ -1,13 +1,13 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
-  "name": "txt-footer",
+  "name": "txt-titulo",
   "position": {
     "x": 24,
-    "y": 664,
+    "y": 20,
     "z": 0,
-    "height": 32,
+    "height": 64,
     "width": 1232,
-    "tabOrder": 20
+    "tabOrder": 0
   },
   "visual": {
     "visualType": "textbox",
@@ -19,10 +19,23 @@
               {
                 "textRuns": [
                   {
-                    "value": "Vencido = pendiente de cobro con fecha_vencimiento anterior al 30/06/2026 · % vencido = vencido / facturado · Retraso medio = fecha_cobro − fecha_vencimiento (solo facturas cobradas)",
+                    "value": "La cláusula de revisión por IPC está en el contrato, pero no llega al precio",
+                    "textStyle": {
+                      "fontFamily": "Segoe UI Semibold",
+                      "fontSize": "22px",
+                      "color": "#1B2A4A"
+                    }
+                  }
+                ],
+                "horizontalTextAlignment": "left"
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Los servicios recurrentes indexados subieron un 0,7 % en dos años y medio, mientras el IPC acumulaba un 5,6 %. La correlación #3 de FICHA.md no se sostiene — y eso cuesta dinero.",
                     "textStyle": {
                       "fontFamily": "Segoe UI",
-                      "fontSize": "9px",
+                      "fontSize": "11px",
                       "color": "#6B7A99"
                     }
                   }

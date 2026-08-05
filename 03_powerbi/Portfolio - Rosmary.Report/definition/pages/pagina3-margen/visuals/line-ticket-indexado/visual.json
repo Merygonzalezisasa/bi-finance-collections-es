@@ -1,16 +1,16 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
-  "name": "scatter-riesgo-sector",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
+  "name": "line-ticket-indexado",
   "position": {
     "x": 24,
-    "y": 116,
+    "y": 104,
     "z": 1,
-    "height": 288,
-    "width": 1232,
-    "tabOrder": 10
+    "height": 340,
+    "width": 712,
+    "tabOrder": 1
   },
   "visual": {
-    "visualType": "scatterChart",
+    "visualType": "lineChart",
     "query": {
       "queryState": {
         "Category": {
@@ -20,97 +20,14 @@
                 "Column": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "dim_cliente"
+                      "Entity": "Calendario"
                     }
                   },
-                  "Property": "sector"
+                  "Property": "anio_trimestre"
                 }
               },
-              "queryRef": "dim_cliente.sector",
-              "nativeQueryRef": "sector",
-              "active": true
-            }
-          ]
-        },
-        "Size": {
-          "projections": [
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "_Medidas"
-                    }
-                  },
-                  "Property": "Facturado"
-                }
-              },
-              "queryRef": "_Medidas.Facturado",
-              "nativeQueryRef": "Facturado"
-            }
-          ]
-        },
-        "Tooltips": {
-          "projections": [
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "_Medidas"
-                    }
-                  },
-                  "Property": "Vencido"
-                }
-              },
-              "queryRef": "_Medidas.Vencido",
-              "nativeQueryRef": "Vencido"
-            },
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "_Medidas"
-                    }
-                  },
-                  "Property": "Clientes activos"
-                }
-              },
-              "queryRef": "_Medidas.Clientes activos",
-              "nativeQueryRef": "Clientes activos"
-            },
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "_Medidas"
-                    }
-                  },
-                  "Property": "Dias hasta cobro"
-                }
-              },
-              "queryRef": "_Medidas.Dias hasta cobro",
-              "nativeQueryRef": "Dias hasta cobro"
-            }
-          ]
-        },
-        "X": {
-          "projections": [
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "_Medidas"
-                    }
-                  },
-                  "Property": "Retraso medio"
-                }
-              },
-              "queryRef": "_Medidas.Retraso medio",
-              "nativeQueryRef": "Retraso medio",
+              "queryRef": "Calendario.anio_trimestre",
+              "nativeQueryRef": "anio_trimestre",
               "active": true
             }
           ]
@@ -125,11 +42,11 @@
                       "Entity": "_Medidas"
                     }
                   },
-                  "Property": "% vencido"
+                  "Property": "Ticket medio"
                 }
               },
-              "queryRef": "_Medidas.% vencido",
-              "nativeQueryRef": "% vencido"
+              "queryRef": "_Medidas.Ticket medio",
+              "nativeQueryRef": "Ticket medio"
             }
           ]
         }
@@ -144,7 +61,7 @@
                 "color": {
                   "expr": {
                     "Literal": {
-                      "Value": "'#1B2A4A'"
+                      "Value": "'#D9784F'"
                     }
                   }
                 }
@@ -153,7 +70,52 @@
           }
         }
       ],
-      "categoryLabels": [
+      "lineStyles": [
+        {
+          "properties": {
+            "strokeWidth": {
+              "expr": {
+                "Literal": {
+                  "Value": "3D"
+                }
+              }
+            },
+            "strokeColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#D9784F'"
+                    }
+                  }
+                }
+              }
+            },
+            "showMarker": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "markerShape": {
+              "expr": {
+                "Literal": {
+                  "Value": "'circle'"
+                }
+              }
+            },
+            "markerSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "5D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "labels": [
         {
           "properties": {
             "show": {
@@ -166,7 +128,7 @@
             "fontSize": {
               "expr": {
                 "Literal": {
-                  "Value": "10D"
+                  "Value": "8D"
                 }
               }
             },
@@ -180,6 +142,20 @@
                   }
                 }
               }
+            },
+            "labelDisplayUnits": {
+              "expr": {
+                "Literal": {
+                  "Value": "1D"
+                }
+              }
+            },
+            "labelPrecision": {
+              "expr": {
+                "Literal": {
+                  "Value": "0L"
+                }
+              }
             }
           }
         }
@@ -191,20 +167,6 @@
               "expr": {
                 "Literal": {
                   "Value": "true"
-                }
-              }
-            },
-            "start": {
-              "expr": {
-                "Literal": {
-                  "Value": "-1D"
-                }
-              }
-            },
-            "end": {
-              "expr": {
-                "Literal": {
-                  "Value": "29D"
                 }
               }
             },
@@ -229,32 +191,7 @@
             "showAxisTitle": {
               "expr": {
                 "Literal": {
-                  "Value": "true"
-                }
-              }
-            },
-            "titleText": {
-              "expr": {
-                "Literal": {
-                  "Value": "'Retraso en días  →  riesgo de LIQUIDEZ'"
-                }
-              }
-            },
-            "titleFontSize": {
-              "expr": {
-                "Literal": {
-                  "Value": "10D"
-                }
-              }
-            },
-            "titleColor": {
-              "solid": {
-                "color": {
-                  "expr": {
-                    "Literal": {
-                      "Value": "'#4A90A4'"
-                    }
-                  }
+                  "Value": "false"
                 }
               }
             }
@@ -274,14 +211,14 @@
             "start": {
               "expr": {
                 "Literal": {
-                  "Value": "-0.005D"
+                  "Value": "4800D"
                 }
               }
             },
             "end": {
               "expr": {
                 "Literal": {
-                  "Value": "0.14D"
+                  "Value": "5500D"
                 }
               }
             },
@@ -306,32 +243,7 @@
             "showAxisTitle": {
               "expr": {
                 "Literal": {
-                  "Value": "true"
-                }
-              }
-            },
-            "titleText": {
-              "expr": {
-                "Literal": {
-                  "Value": "'% vencido  →  riesgo de CRÉDITO'"
-                }
-              }
-            },
-            "titleFontSize": {
-              "expr": {
-                "Literal": {
-                  "Value": "10D"
-                }
-              }
-            },
-            "titleColor": {
-              "solid": {
-                "color": {
-                  "expr": {
-                    "Literal": {
-                      "Value": "'#D9534F'"
-                    }
-                  }
+                  "Value": "false"
                 }
               }
             },
@@ -369,30 +281,143 @@
           }
         }
       ],
-      "bubbles": [
+      "y1AxisReferenceLine": [
         {
           "properties": {
-            "bubbleSize": {
-              "expr": {
-                "Literal": {
-                  "Value": "-10L"
-                }
-              }
-            },
-            "preventOverflow": {
+            "show": {
               "expr": {
                 "Literal": {
                   "Value": "true"
                 }
               }
             },
-            "markerRangeType": {
+            "displayName": {
               "expr": {
                 "Literal": {
-                  "Value": "'dataRange'"
+                  "Value": "'Donde debería estar con la revisión aplicada'"
+                }
+              }
+            },
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "5348D"
+                }
+              }
+            },
+            "lineColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#3FA65B'"
+                    }
+                  }
+                }
+              }
+            },
+            "style": {
+              "expr": {
+                "Literal": {
+                  "Value": "'dashed'"
+                }
+              }
+            },
+            "width": {
+              "expr": {
+                "Literal": {
+                  "Value": "2D"
+                }
+              }
+            },
+            "position": {
+              "expr": {
+                "Literal": {
+                  "Value": "'front'"
+                }
+              }
+            },
+            "dataLabelShow": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "dataLabelText": {
+              "expr": {
+                "Literal": {
+                  "Value": "'ValueAndName'"
+                }
+              }
+            },
+            "dataLabelColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#3FA65B'"
+                    }
+                  }
+                }
+              }
+            },
+            "dataLabelDecimalPoints": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            },
+            "dataLabelHorizontalPosition": {
+              "expr": {
+                "Literal": {
+                  "Value": "'left'"
+                }
+              }
+            },
+            "dataLabelVerticalPosition": {
+              "expr": {
+                "Literal": {
+                  "Value": "'above'"
+                }
+              }
+            },
+            "shadeShow": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "shadeRegion": {
+              "expr": {
+                "Literal": {
+                  "Value": "'before'"
+                }
+              }
+            },
+            "shadeColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#3FA65B'"
+                    }
+                  }
+                }
+              }
+            },
+            "shadeTransparency": {
+              "expr": {
+                "Literal": {
+                  "Value": "92D"
                 }
               }
             }
+          },
+          "selector": {
+            "id": "objetivoIPC"
           }
         }
       ]
@@ -411,7 +436,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Dos riesgos, dos ejes: quién no paga (arriba) vs quién paga tarde (derecha)'"
+                  "Value": "'Ticket medio de los servicios indexados al IPC, por trimestre'"
                 }
               }
             },
@@ -435,6 +460,44 @@
                   "expr": {
                     "Literal": {
                       "Value": "'#1B2A4A'"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "subTitle": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Eje ampliado (4.800–5.500 €) para que la variación real sea visible. La línea verde es el objetivo con la revisión aplicada'"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "9D"
+                }
+              }
+            },
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#6B7A99'"
                     }
                   }
                 }
@@ -517,45 +580,65 @@
             }
           }
         }
-      ],
-      "subTitle": [
-        {
-          "properties": {
-            "show": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
-                }
+      ]
+    }
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "Filterindexadoipc00000001",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dim_servicio"
               }
             },
-            "text": {
-              "expr": {
-                "Literal": {
-                  "Value": "'Tamaño = facturación · Construcción sube por el eje Y (11,8 % vencido); sector público se va a la derecha (25,3 días) con solo 0,9 % vencido'"
-                }
-              }
-            },
-            "fontSize": {
-              "expr": {
-                "Literal": {
-                  "Value": "9D"
-                }
-              }
-            },
-            "fontColor": {
-              "solid": {
-                "color": {
-                  "expr": {
-                    "Literal": {
-                      "Value": "'#6B7A99'"
+            "Property": "indexado_ipc"
+          }
+        },
+        "type": "Categorical",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "d",
+              "Entity": "dim_servicio",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "In": {
+                  "Expressions": [
+                    {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Source": "d"
+                          }
+                        },
+                        "Property": "indexado_ipc"
+                      }
                     }
-                  }
+                  ],
+                  "Values": [
+                    [
+                      {
+                        "Literal": {
+                          "Value": "true"
+                        }
+                      }
+                    ]
+                  ]
                 }
               }
             }
-          }
-        }
-      ]
-    }
+          ]
+        },
+        "howCreated": "User"
+      }
+    ]
   }
 }
