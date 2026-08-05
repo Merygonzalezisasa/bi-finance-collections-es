@@ -151,24 +151,6 @@ table _Medidas
 		displayFolder: 03 Plazos
 		lineageTag: 798b738e-735d-402d-b174-6776fd423a52
 
-	/// Retraso medio de pago del segmento pyme. Aislado para comparar contra corporate.
-	measure 'Retraso pyme' = CALCULATE ( [Retraso medio], dim_cliente[segmento] = "pyme" )
-		formatString: 0.0
-		displayFolder: 03 Plazos
-		lineageTag: b46d87af-23d6-40a3-9819-4211b6b0140f
-
-	/// Retraso medio de pago del segmento corporate. Aislado para comparar contra pyme.
-	measure 'Retraso corporate' = CALCULATE ( [Retraso medio], dim_cliente[segmento] = "corporate" )
-		formatString: 0.0
-		displayFolder: 03 Plazos
-		lineageTag: cdddd298-c202-426d-931f-e944a9b3cbbc
-
-	/// Dias de retraso que la pyme suma por encima del corporate. Se ensancha cuando sube el Euribor.
-	measure 'Brecha pyme-corporate' = [Retraso pyme] - [Retraso corporate]
-		formatString: 0.0
-		displayFolder: 03 Plazos
-		lineageTag: 71c42d92-b26a-4830-9b6c-f3ab41c47d7c
-
 	/// Media de dias vencidos de la deuda pendiente.
 	measure 'Dias vencidos medios' = AVERAGEX(FILTER(fact_facturas, NOT ISBLANK(fact_facturas[dias_vencido]) && fact_facturas[dias_vencido] > 0), fact_facturas[dias_vencido])
 		formatString: #,##0.0
