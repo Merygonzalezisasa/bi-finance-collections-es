@@ -1,16 +1,16 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
-  "name": "line-ticket-indexado",
+  "name": "col-estacionalidad",
   "position": {
-    "x": 24,
-    "y": 104,
+    "x": 648,
+    "y": 448,
     "z": 1,
-    "height": 340,
-    "width": 712,
-    "tabOrder": 1
+    "height": 200,
+    "width": 608,
+    "tabOrder": 23
   },
   "visual": {
-    "visualType": "lineChart",
+    "visualType": "columnChart",
     "query": {
       "queryState": {
         "Category": {
@@ -23,11 +23,11 @@
                       "Entity": "Calendario"
                     }
                   },
-                  "Property": "anio_trimestre"
+                  "Property": "mes"
                 }
               },
-              "queryRef": "Calendario.anio_trimestre",
-              "nativeQueryRef": "anio_trimestre",
+              "queryRef": "Calendario.mes",
+              "nativeQueryRef": "mes",
               "active": true
             }
           ]
@@ -42,11 +42,11 @@
                       "Entity": "_Medidas"
                     }
                   },
-                  "Property": "Ticket medio"
+                  "Property": "Facturado"
                 }
               },
-              "queryRef": "_Medidas.Ticket medio",
-              "nativeQueryRef": "Ticket medio"
+              "queryRef": "_Medidas.Facturado",
+              "nativeQueryRef": "Facturado"
             }
           ]
         }
@@ -61,54 +61,9 @@
                 "color": {
                   "expr": {
                     "Literal": {
-                      "Value": "'#D9784F'"
+                      "Value": "'#4A90A4'"
                     }
                   }
-                }
-              }
-            }
-          }
-        }
-      ],
-      "lineStyles": [
-        {
-          "properties": {
-            "strokeWidth": {
-              "expr": {
-                "Literal": {
-                  "Value": "3D"
-                }
-              }
-            },
-            "strokeColor": {
-              "solid": {
-                "color": {
-                  "expr": {
-                    "Literal": {
-                      "Value": "'#D9784F'"
-                    }
-                  }
-                }
-              }
-            },
-            "showMarker": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
-                }
-              }
-            },
-            "markerShape": {
-              "expr": {
-                "Literal": {
-                  "Value": "'circle'"
-                }
-              }
-            },
-            "markerSize": {
-              "expr": {
-                "Literal": {
-                  "Value": "5D"
                 }
               }
             }
@@ -146,14 +101,14 @@
             "labelDisplayUnits": {
               "expr": {
                 "Literal": {
-                  "Value": "1D"
+                  "Value": "1000000D"
                 }
               }
             },
             "labelPrecision": {
               "expr": {
                 "Literal": {
-                  "Value": "0L"
+                  "Value": "1L"
                 }
               }
             }
@@ -173,7 +128,7 @@
             "fontSize": {
               "expr": {
                 "Literal": {
-                  "Value": "9D"
+                  "Value": "8D"
                 }
               }
             },
@@ -194,6 +149,20 @@
                   "Value": "false"
                 }
               }
+            },
+            "preferredCategoryWidth": {
+              "expr": {
+                "Literal": {
+                  "Value": "1D"
+                }
+              }
+            },
+            "concatenateLabels": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
             }
           }
         }
@@ -205,20 +174,6 @@
               "expr": {
                 "Literal": {
                   "Value": "true"
-                }
-              }
-            },
-            "start": {
-              "expr": {
-                "Literal": {
-                  "Value": "4800D"
-                }
-              }
-            },
-            "end": {
-              "expr": {
-                "Literal": {
-                  "Value": "5500D"
                 }
               }
             },
@@ -281,143 +236,23 @@
           }
         }
       ],
-      "y1AxisReferenceLine": [
+      "zoom": [
         {
           "properties": {
             "show": {
               "expr": {
                 "Literal": {
-                  "Value": "true"
+                  "Value": "false"
                 }
               }
             },
-            "displayName": {
+            "showOnValueAxis": {
               "expr": {
                 "Literal": {
-                  "Value": "'Donde debería estar con la revisión aplicada'"
-                }
-              }
-            },
-            "value": {
-              "expr": {
-                "Literal": {
-                  "Value": "5348D"
-                }
-              }
-            },
-            "lineColor": {
-              "solid": {
-                "color": {
-                  "expr": {
-                    "Literal": {
-                      "Value": "'#3FA65B'"
-                    }
-                  }
-                }
-              }
-            },
-            "style": {
-              "expr": {
-                "Literal": {
-                  "Value": "'dashed'"
-                }
-              }
-            },
-            "width": {
-              "expr": {
-                "Literal": {
-                  "Value": "2D"
-                }
-              }
-            },
-            "position": {
-              "expr": {
-                "Literal": {
-                  "Value": "'front'"
-                }
-              }
-            },
-            "dataLabelShow": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
-                }
-              }
-            },
-            "dataLabelText": {
-              "expr": {
-                "Literal": {
-                  "Value": "'ValueAndName'"
-                }
-              }
-            },
-            "dataLabelColor": {
-              "solid": {
-                "color": {
-                  "expr": {
-                    "Literal": {
-                      "Value": "'#3FA65B'"
-                    }
-                  }
-                }
-              }
-            },
-            "dataLabelDecimalPoints": {
-              "expr": {
-                "Literal": {
-                  "Value": "0D"
-                }
-              }
-            },
-            "dataLabelHorizontalPosition": {
-              "expr": {
-                "Literal": {
-                  "Value": "'left'"
-                }
-              }
-            },
-            "dataLabelVerticalPosition": {
-              "expr": {
-                "Literal": {
-                  "Value": "'above'"
-                }
-              }
-            },
-            "shadeShow": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
-                }
-              }
-            },
-            "shadeRegion": {
-              "expr": {
-                "Literal": {
-                  "Value": "'before'"
-                }
-              }
-            },
-            "shadeColor": {
-              "solid": {
-                "color": {
-                  "expr": {
-                    "Literal": {
-                      "Value": "'#3FA65B'"
-                    }
-                  }
-                }
-              }
-            },
-            "shadeTransparency": {
-              "expr": {
-                "Literal": {
-                  "Value": "92D"
+                  "Value": "false"
                 }
               }
             }
-          },
-          "selector": {
-            "id": "objetivoIPC"
           }
         }
       ]
@@ -436,7 +271,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Ticket medio de los servicios indexados al IPC, por trimestre'"
+                  "Value": "'Estacionalidad española: agosto se desploma'"
                 }
               }
             },
@@ -460,44 +295,6 @@
                   "expr": {
                     "Literal": {
                       "Value": "'#1B2A4A'"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      ],
-      "subTitle": [
-        {
-          "properties": {
-            "show": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
-                }
-              }
-            },
-            "text": {
-              "expr": {
-                "Literal": {
-                  "Value": "'Eje ampliado (4.800–5.500 €) para que la variación real sea visible. La línea verde es el objetivo con la revisión aplicada'"
-                }
-              }
-            },
-            "fontSize": {
-              "expr": {
-                "Literal": {
-                  "Value": "9D"
-                }
-              }
-            },
-            "fontColor": {
-              "solid": {
-                "color": {
-                  "expr": {
-                    "Literal": {
-                      "Value": "'#6B7A99'"
                     }
                   }
                 }
@@ -580,65 +377,45 @@
             }
           }
         }
-      ]
-    }
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "Filterindexadoipc00000001",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "dim_servicio"
+      ],
+      "subTitle": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
               }
             },
-            "Property": "indexado_ipc"
-          }
-        },
-        "type": "Categorical",
-        "filter": {
-          "Version": 2,
-          "From": [
-            {
-              "Name": "d",
-              "Entity": "dim_servicio",
-              "Type": 0
-            }
-          ],
-          "Where": [
-            {
-              "Condition": {
-                "In": {
-                  "Expressions": [
-                    {
-                      "Column": {
-                        "Expression": {
-                          "SourceRef": {
-                            "Source": "d"
-                          }
-                        },
-                        "Property": "indexado_ipc"
-                      }
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Mes del año (1 = enero … 12 = diciembre) · Agosto factura un 86 % menos que un mes normal'"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "9D"
+                }
+              }
+            },
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#6B7A99'"
                     }
-                  ],
-                  "Values": [
-                    [
-                      {
-                        "Literal": {
-                          "Value": "true"
-                        }
-                      }
-                    ]
-                  ]
+                  }
                 }
               }
             }
-          ]
-        },
-        "howCreated": "User"
-      }
-    ]
+          }
+        }
+      ]
+    }
   }
 }

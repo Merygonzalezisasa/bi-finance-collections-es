@@ -1,16 +1,16 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
-  "name": "line-ticket-indexado",
+  "name": "combo-pareto",
   "position": {
     "x": 24,
-    "y": 104,
+    "y": 96,
     "z": 1,
-    "height": 340,
-    "width": 712,
+    "height": 300,
+    "width": 1232,
     "tabOrder": 1
   },
   "visual": {
-    "visualType": "lineChart",
+    "visualType": "lineClusteredColumnComboChart",
     "query": {
       "queryState": {
         "Category": {
@@ -20,14 +20,14 @@
                 "Column": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "Calendario"
+                      "Entity": "dim_cliente"
                     }
                   },
-                  "Property": "anio_trimestre"
+                  "Property": "nombre"
                 }
               },
-              "queryRef": "Calendario.anio_trimestre",
-              "nativeQueryRef": "anio_trimestre",
+              "queryRef": "dim_cliente.nombre",
+              "nativeQueryRef": "nombre",
               "active": true
             }
           ]
@@ -42,14 +42,96 @@
                       "Entity": "_Medidas"
                     }
                   },
-                  "Property": "Ticket medio"
+                  "Property": "Facturado"
                 }
               },
-              "queryRef": "_Medidas.Ticket medio",
-              "nativeQueryRef": "Ticket medio"
+              "queryRef": "_Medidas.Facturado",
+              "nativeQueryRef": "Facturado"
+            }
+          ]
+        },
+        "Y2": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Medidas"
+                    }
+                  },
+                  "Property": "% acumulado clientes"
+                }
+              },
+              "queryRef": "_Medidas.% acumulado clientes",
+              "nativeQueryRef": "% acumulado clientes"
+            }
+          ]
+        },
+        "Tooltips": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Medidas"
+                    }
+                  },
+                  "Property": "Ranking cliente"
+                }
+              },
+              "queryRef": "_Medidas.Ranking cliente",
+              "nativeQueryRef": "Ranking cliente"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Medidas"
+                    }
+                  },
+                  "Property": "% sobre total"
+                }
+              },
+              "queryRef": "_Medidas.% sobre total",
+              "nativeQueryRef": "% sobre total"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Medidas"
+                    }
+                  },
+                  "Property": "Clase ABC"
+                }
+              },
+              "queryRef": "_Medidas.Clase ABC",
+              "nativeQueryRef": "Clase ABC"
             }
           ]
         }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "_Medidas"
+                  }
+                },
+                "Property": "Facturado"
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": true
       }
     },
     "objects": {
@@ -61,12 +143,30 @@
                 "color": {
                   "expr": {
                     "Literal": {
+                      "Value": "'#1B2A4A'"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "properties": {
+            "fill": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
                       "Value": "'#D9784F'"
                     }
                   }
                 }
               }
             }
+          },
+          "selector": {
+            "metadata": "_Medidas.% acumulado clientes"
           }
         }
       ],
@@ -80,80 +180,10 @@
                 }
               }
             },
-            "strokeColor": {
-              "solid": {
-                "color": {
-                  "expr": {
-                    "Literal": {
-                      "Value": "'#D9784F'"
-                    }
-                  }
-                }
-              }
-            },
             "showMarker": {
               "expr": {
                 "Literal": {
-                  "Value": "true"
-                }
-              }
-            },
-            "markerShape": {
-              "expr": {
-                "Literal": {
-                  "Value": "'circle'"
-                }
-              }
-            },
-            "markerSize": {
-              "expr": {
-                "Literal": {
-                  "Value": "5D"
-                }
-              }
-            }
-          }
-        }
-      ],
-      "labels": [
-        {
-          "properties": {
-            "show": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
-                }
-              }
-            },
-            "fontSize": {
-              "expr": {
-                "Literal": {
-                  "Value": "8D"
-                }
-              }
-            },
-            "color": {
-              "solid": {
-                "color": {
-                  "expr": {
-                    "Literal": {
-                      "Value": "'#1B2A4A'"
-                    }
-                  }
-                }
-              }
-            },
-            "labelDisplayUnits": {
-              "expr": {
-                "Literal": {
-                  "Value": "1D"
-                }
-              }
-            },
-            "labelPrecision": {
-              "expr": {
-                "Literal": {
-                  "Value": "0L"
+                  "Value": "false"
                 }
               }
             }
@@ -170,10 +200,17 @@
                 }
               }
             },
+            "showAxisTitle": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
             "fontSize": {
               "expr": {
                 "Literal": {
-                  "Value": "9D"
+                  "Value": "1D"
                 }
               }
             },
@@ -182,13 +219,20 @@
                 "color": {
                   "expr": {
                     "Literal": {
-                      "Value": "'#6B7A99'"
+                      "Value": "'#F4F5F7'"
                     }
                   }
                 }
               }
             },
-            "showAxisTitle": {
+            "preferredCategoryWidth": {
+              "expr": {
+                "Literal": {
+                  "Value": "1D"
+                }
+              }
+            },
+            "concatenateLabels": {
               "expr": {
                 "Literal": {
                   "Value": "false"
@@ -211,14 +255,7 @@
             "start": {
               "expr": {
                 "Literal": {
-                  "Value": "4800D"
-                }
-              }
-            },
-            "end": {
-              "expr": {
-                "Literal": {
-                  "Value": "5500D"
+                  "Value": "0D"
                 }
               }
             },
@@ -244,6 +281,13 @@
               "expr": {
                 "Literal": {
                   "Value": "false"
+                }
+              }
+            },
+            "labelDisplayUnits": {
+              "expr": {
+                "Literal": {
+                  "Value": "1000000D"
                 }
               }
             },
@@ -274,6 +318,38 @@
             "show": {
               "expr": {
                 "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "position": {
+              "expr": {
+                "Literal": {
+                  "Value": "'TopRight'"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "9D"
+                }
+              }
+            },
+            "labelColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#6B7A99'"
+                    }
+                  }
+                }
+              }
+            },
+            "showTitle": {
+              "expr": {
+                "Literal": {
                   "Value": "false"
                 }
               }
@@ -281,143 +357,23 @@
           }
         }
       ],
-      "y1AxisReferenceLine": [
+      "zoom": [
         {
           "properties": {
             "show": {
               "expr": {
                 "Literal": {
-                  "Value": "true"
+                  "Value": "false"
                 }
               }
             },
-            "displayName": {
+            "showOnValueAxis": {
               "expr": {
                 "Literal": {
-                  "Value": "'Donde debería estar con la revisión aplicada'"
-                }
-              }
-            },
-            "value": {
-              "expr": {
-                "Literal": {
-                  "Value": "5348D"
-                }
-              }
-            },
-            "lineColor": {
-              "solid": {
-                "color": {
-                  "expr": {
-                    "Literal": {
-                      "Value": "'#3FA65B'"
-                    }
-                  }
-                }
-              }
-            },
-            "style": {
-              "expr": {
-                "Literal": {
-                  "Value": "'dashed'"
-                }
-              }
-            },
-            "width": {
-              "expr": {
-                "Literal": {
-                  "Value": "2D"
-                }
-              }
-            },
-            "position": {
-              "expr": {
-                "Literal": {
-                  "Value": "'front'"
-                }
-              }
-            },
-            "dataLabelShow": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
-                }
-              }
-            },
-            "dataLabelText": {
-              "expr": {
-                "Literal": {
-                  "Value": "'ValueAndName'"
-                }
-              }
-            },
-            "dataLabelColor": {
-              "solid": {
-                "color": {
-                  "expr": {
-                    "Literal": {
-                      "Value": "'#3FA65B'"
-                    }
-                  }
-                }
-              }
-            },
-            "dataLabelDecimalPoints": {
-              "expr": {
-                "Literal": {
-                  "Value": "0D"
-                }
-              }
-            },
-            "dataLabelHorizontalPosition": {
-              "expr": {
-                "Literal": {
-                  "Value": "'left'"
-                }
-              }
-            },
-            "dataLabelVerticalPosition": {
-              "expr": {
-                "Literal": {
-                  "Value": "'above'"
-                }
-              }
-            },
-            "shadeShow": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
-                }
-              }
-            },
-            "shadeRegion": {
-              "expr": {
-                "Literal": {
-                  "Value": "'before'"
-                }
-              }
-            },
-            "shadeColor": {
-              "solid": {
-                "color": {
-                  "expr": {
-                    "Literal": {
-                      "Value": "'#3FA65B'"
-                    }
-                  }
-                }
-              }
-            },
-            "shadeTransparency": {
-              "expr": {
-                "Literal": {
-                  "Value": "92D"
+                  "Value": "false"
                 }
               }
             }
-          },
-          "selector": {
-            "id": "objetivoIPC"
           }
         }
       ]
@@ -436,7 +392,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Ticket medio de los servicios indexados al IPC, por trimestre'"
+                  "Value": "'Curva de Pareto: 120 clientes ordenados por facturación'"
                 }
               }
             },
@@ -460,44 +416,6 @@
                   "expr": {
                     "Literal": {
                       "Value": "'#1B2A4A'"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      ],
-      "subTitle": [
-        {
-          "properties": {
-            "show": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
-                }
-              }
-            },
-            "text": {
-              "expr": {
-                "Literal": {
-                  "Value": "'Eje ampliado (4.800–5.500 €) para que la variación real sea visible. La línea verde es el objetivo con la revisión aplicada'"
-                }
-              }
-            },
-            "fontSize": {
-              "expr": {
-                "Literal": {
-                  "Value": "9D"
-                }
-              }
-            },
-            "fontColor": {
-              "solid": {
-                "color": {
-                  "expr": {
-                    "Literal": {
-                      "Value": "'#6B7A99'"
                     }
                   }
                 }
@@ -580,65 +498,45 @@
             }
           }
         }
-      ]
-    }
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "Filterindexadoipc00000001",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "dim_servicio"
+      ],
+      "subTitle": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
               }
             },
-            "Property": "indexado_ipc"
-          }
-        },
-        "type": "Categorical",
-        "filter": {
-          "Version": 2,
-          "From": [
-            {
-              "Name": "d",
-              "Entity": "dim_servicio",
-              "Type": 0
-            }
-          ],
-          "Where": [
-            {
-              "Condition": {
-                "In": {
-                  "Expressions": [
-                    {
-                      "Column": {
-                        "Expression": {
-                          "SourceRef": {
-                            "Source": "d"
-                          }
-                        },
-                        "Property": "indexado_ipc"
-                      }
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Barras = facturado por cliente (navy) · Línea = % acumulado (coral). Una curva que sube despacio significa cartera diversificada'"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "9D"
+                }
+              }
+            },
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#6B7A99'"
                     }
-                  ],
-                  "Values": [
-                    [
-                      {
-                        "Literal": {
-                          "Value": "true"
-                        }
-                      }
-                    ]
-                  ]
+                  }
                 }
               }
             }
-          ]
-        },
-        "howCreated": "User"
-      }
-    ]
+          }
+        }
+      ]
+    }
   }
 }

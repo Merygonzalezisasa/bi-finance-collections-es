@@ -1,7 +1,7 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/2.1.0/schema.json",
-  "name": "pagina3-margen",
-  "displayName": "3 · Precio y margen",
+  "name": "pagina5-tiempo",
+  "displayName": "5 · Inteligencia de tiempo",
   "displayOption": "FitToPage",
   "height": 720,
   "width": 1280,
@@ -34,7 +34,7 @@
   "filterConfig": {
     "filters": [
       {
-        "name": "Filtroanio2024ppp000000003",
+        "name": "Filtroanio2024ppp000000005",
         "field": {
           "Column": {
             "Expression": {
@@ -58,21 +58,45 @@
           "Where": [
             {
               "Condition": {
-                "Comparison": {
-                  "ComparisonKind": 2,
+                "And": {
                   "Left": {
-                    "Column": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Source": "c"
+                    "Comparison": {
+                      "ComparisonKind": 2,
+                      "Left": {
+                        "Column": {
+                          "Expression": {
+                            "SourceRef": {
+                              "Source": "c"
+                            }
+                          },
+                          "Property": "anio"
                         }
                       },
-                      "Property": "anio"
+                      "Right": {
+                        "Literal": {
+                          "Value": "2024L"
+                        }
+                      }
                     }
                   },
                   "Right": {
-                    "Literal": {
-                      "Value": "2024L"
+                    "Comparison": {
+                      "ComparisonKind": 4,
+                      "Left": {
+                        "Column": {
+                          "Expression": {
+                            "SourceRef": {
+                              "Source": "c"
+                            }
+                          },
+                          "Property": "anio_mes_orden"
+                        }
+                      },
+                      "Right": {
+                        "Literal": {
+                          "Value": "202606L"
+                        }
+                      }
                     }
                   }
                 }

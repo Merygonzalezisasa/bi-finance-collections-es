@@ -19,7 +19,7 @@
               {
                 "textRuns": [
                   {
-                    "value": "La cláusula de revisión por IPC está en el contrato, pero no llega al precio",
+                    "value": "Inteligencia de tiempo: mismo periodo del año anterior, acumulado y tendencia",
                     "textStyle": {
                       "fontFamily": "Segoe UI Semibold",
                       "fontSize": "22px",
@@ -32,7 +32,7 @@
               {
                 "textRuns": [
                   {
-                    "value": "Los servicios recurrentes indexados subieron un 0,7 % en dos años y medio, mientras el IPC acumulaba un 5,6 %. La correlación #3 de FICHA.md no se sostiene — y eso cuesta dinero.",
+                    "value": "A 30/06/2026 el acumulado del año va +8,4 % sobre el mismo tramo de 2025 (28,3 M€ vs 26,1 M€) · La variación interanual solo se muestra a nivel mensual: a nivel total no significa nada, porque compara periodos de distinta longitud",
                     "textStyle": {
                       "fontFamily": "Segoe UI",
                       "fontSize": "11px",

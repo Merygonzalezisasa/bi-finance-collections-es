@@ -1,13 +1,13 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
-  "name": "txt-titulo",
+  "name": "txt-footer",
   "position": {
     "x": 24,
-    "y": 20,
+    "y": 616,
     "z": 0,
-    "height": 64,
+    "height": 60,
     "width": 1232,
-    "tabOrder": 0
+    "tabOrder": 90
   },
   "visual": {
     "visualType": "textbox",
@@ -19,11 +19,11 @@
               {
                 "textRuns": [
                   {
-                    "value": "La cláusula de revisión por IPC está en el contrato, pero no llega al precio",
+                    "value": "FUENTES Y STACK",
                     "textStyle": {
                       "fontFamily": "Segoe UI Semibold",
-                      "fontSize": "22px",
-                      "color": "#1B2A4A"
+                      "fontSize": "10px",
+                      "color": "#D9784F"
                     }
                   }
                 ],
@@ -32,10 +32,10 @@
               {
                 "textRuns": [
                   {
-                    "value": "Los servicios recurrentes indexados subieron un 0,7 % en dos años y medio, mientras el IPC acumulaba un 5,6 %. La correlación #3 de FICHA.md no se sostiene — y eso cuesta dinero.",
+                    "value": "Euríbor 12M: BCE (ECB Data Portal) · IPC: INE, serie IPC251856 · EUR/USD: Frankfurter · Feriados: Nager.Date  |  Facturación sintética declarada (Faker + NumPy, SEED=42)  |  Python → PostgreSQL (esquema estrella) → Power BI",
                     "textStyle": {
                       "fontFamily": "Segoe UI",
-                      "fontSize": "11px",
+                      "fontSize": "10px",
                       "color": "#6B7A99"
                     }
                   }

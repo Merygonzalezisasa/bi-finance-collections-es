@@ -3,9 +3,9 @@
   "name": "txt-titulo",
   "position": {
     "x": 24,
-    "y": 20,
+    "y": 44,
     "z": 0,
-    "height": 64,
+    "height": 60,
     "width": 1232,
     "tabOrder": 0
   },
@@ -19,24 +19,11 @@
               {
                 "textRuns": [
                   {
-                    "value": "La cláusula de revisión por IPC está en el contrato, pero no llega al precio",
+                    "value": "Finance Analytics España",
                     "textStyle": {
                       "fontFamily": "Segoe UI Semibold",
-                      "fontSize": "22px",
+                      "fontSize": "34px",
                       "color": "#1B2A4A"
-                    }
-                  }
-                ],
-                "horizontalTextAlignment": "left"
-              },
-              {
-                "textRuns": [
-                  {
-                    "value": "Los servicios recurrentes indexados subieron un 0,7 % en dos años y medio, mientras el IPC acumulaba un 5,6 %. La correlación #3 de FICHA.md no se sostiene — y eso cuesta dinero.",
-                    "textStyle": {
-                      "fontFamily": "Segoe UI",
-                      "fontSize": "11px",
-                      "color": "#6B7A99"
                     }
                   }
                 ],

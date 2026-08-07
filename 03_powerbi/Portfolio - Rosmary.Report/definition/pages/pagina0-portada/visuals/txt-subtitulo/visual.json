@@ -1,13 +1,13 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
-  "name": "txt-titulo",
+  "name": "txt-subtitulo",
   "position": {
     "x": 24,
-    "y": 20,
+    "y": 108,
     "z": 0,
-    "height": 64,
-    "width": 1232,
-    "tabOrder": 0
+    "height": 52,
+    "width": 900,
+    "tabOrder": 1
   },
   "visual": {
     "visualType": "textbox",
@@ -19,11 +19,11 @@
               {
                 "textRuns": [
                   {
-                    "value": "La cláusula de revisión por IPC está en el contrato, pero no llega al precio",
+                    "value": "¿Cómo afecta el entorno macroeconómico español —Euríbor e IPC— a la facturación y al cobro de una empresa B2B, y qué debe hacer Finanzas al respecto?",
                     "textStyle": {
-                      "fontFamily": "Segoe UI Semibold",
-                      "fontSize": "22px",
-                      "color": "#1B2A4A"
+                      "fontFamily": "Segoe UI",
+                      "fontSize": "13px",
+                      "color": "#6B7A99"
                     }
                   }
                 ],
@@ -32,11 +32,11 @@
               {
                 "textRuns": [
                   {
-                    "value": "Los servicios recurrentes indexados subieron un 0,7 % en dos años y medio, mientras el IPC acumulaba un 5,6 %. La correlación #3 de FICHA.md no se sostiene — y eso cuesta dinero.",
+                    "value": "Tamarindo Servicios Empresariales · 15.000 facturas · 120 clientes · ene 2024 – jun 2026",
                     "textStyle": {
                       "fontFamily": "Segoe UI",
                       "fontSize": "11px",
-                      "color": "#6B7A99"
+                      "color": "#4A90A4"
                     }
                   }
                 ],

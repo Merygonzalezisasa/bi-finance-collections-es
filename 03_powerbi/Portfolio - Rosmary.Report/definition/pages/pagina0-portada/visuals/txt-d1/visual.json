@@ -1,13 +1,13 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
-  "name": "txt-titulo",
+  "name": "txt-d1",
   "position": {
     "x": 24,
-    "y": 20,
+    "y": 480,
     "z": 0,
-    "height": 64,
-    "width": 1232,
-    "tabOrder": 0
+    "height": 104,
+    "width": 232,
+    "tabOrder": 40
   },
   "visual": {
     "visualType": "textbox",
@@ -19,23 +19,10 @@
               {
                 "textRuns": [
                   {
-                    "value": "La cláusula de revisión por IPC está en el contrato, pero no llega al precio",
-                    "textStyle": {
-                      "fontFamily": "Segoe UI Semibold",
-                      "fontSize": "22px",
-                      "color": "#1B2A4A"
-                    }
-                  }
-                ],
-                "horizontalTextAlignment": "left"
-              },
-              {
-                "textRuns": [
-                  {
-                    "value": "Los servicios recurrentes indexados subieron un 0,7 % en dos años y medio, mientras el IPC acumulaba un 5,6 %. La correlación #3 de FICHA.md no se sostiene — y eso cuesta dinero.",
+                    "value": "La correlación Euríbor↔retraso se invierte: r = +0,91 en 2024, −0,53 en 2025-26.",
                     "textStyle": {
                       "fontFamily": "Segoe UI",
-                      "fontSize": "11px",
+                      "fontSize": "10px",
                       "color": "#6B7A99"
                     }
                   }

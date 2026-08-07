@@ -1,9 +1,12 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/pagesMetadata/1.1.0/schema.json",
   "pageOrder": [
+    "pagina0-portada",
     "2e29cbfe90624d08328d",
     "pagina2-riesgo",
-    "pagina3-margen"
+    "pagina3-margen",
+    "pagina4-pareto",
+    "pagina5-tiempo"
   ],
-  "activePageName": "pagina2-riesgo"
+  "activePageName": "pagina0-portada"
 }
