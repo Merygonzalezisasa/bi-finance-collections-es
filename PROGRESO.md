@@ -3,7 +3,8 @@
 ## Estado actual
 **Fase:** 3 (Power BI) — **CERRADA ✅** · Siguiente: Fase 4 (análisis Python) ·
 **Última sesión:** 2026-08-07
-**Repo:** https://github.com/Merygonzalezisasa/finance-analytics-es
+**Repo:** https://github.com/Merygonzalezisasa/Portfolio
+→ **pendiente de renombrar a `bi-finance-collections-es`** (ver «Convención de nombres»)
 
 ## Bitácora
 
@@ -33,7 +34,6 @@
   documentadas en SETUP.md: inspección TLS (→ truststore), winget colgado (→ instalador directo)
 - [x] Power BI Desktop abre correctamente (confirmado por Rosmary, 2026-07-17)
 - [x] Repo publicado: **github.com/Merygonzalezisasa/Portfolio** (rama `main`, 2 commits)
-  — renombrado a **`finance-analytics-es`** el 2026-08-09 al adoptar convención de nombres
 
 ## Fase 0.5 — CERRADA ✅ (2026-07-17)
 
@@ -276,18 +276,30 @@ media 3,96 %): el riesgo está en el cliente, no en el producto.
 
 Regla adoptada para **todos** los proyectos que se publiquen en GitHub:
 
-> **`<dominio>-<entregable>-<mercado>`** · minúsculas, guiones, en inglés, sin números ni
+> **`<disciplina>-<dominio>-<mercado>`** · minúsculas, guiones, en inglés, sin números ni
 > abreviaturas crípticas. El sufijo de mercado (`-es`) solo cuando el análisis dependa del país.
 
-| Proyecto | Repo |
-|---|---|
-| Este (facturación y cobros B2B en España) | `finance-analytics-es` |
-| *(ejemplos de cómo escala)* | `retail-demand-forecast-es` |
-| | `hr-attrition-analysis-es` |
+**Prefijos de disciplina:**
 
-**Por qué esta y no otras.** Se descartó el prefijo agrupador (`analytics-…`) porque repite
-espacio útil en cada nombre, y el esquema numerado (`portfolio-01-…`) porque los números se leen
-como ejercicios de bootcamp y obligan a renombrar todo si cambia el orden.
+| Prefijo | Disciplina | Ejemplos |
+|---|---|---|
+| `bi-` | Business Intelligence | `bi-finance-collections-es` · `bi-retail-sales-es` |
+| `dataeng-` | Ingeniería de datos | `dataeng-medallion-lakehouse` · `dataeng-api-ingestion-es` |
+| `datasci-` | Ciencia de datos | `datasci-churn-prediction-es` |
+| `analysis-` | Análisis y estadística | `analysis-cohort-retention-es` |
+
+**Este proyecto:** `bi-finance-collections-es` — BI, dominio finanzas/cobros, mercado español.
+
+**Por qué el prefijo de disciplina sí y el agrupador no.** Se descartó un prefijo genérico
+(`analytics-…`) porque repite espacio sin aportar información. El de disciplina sí la aporta: dice
+qué **tipo** de trabajo es antes de abrir el repo, y deja ver la progresión BI → ingeniería de
+datos → ciencia de datos en el perfil. También se descartó el esquema numerado
+(`portfolio-01-…`): los números leen como ejercicios de bootcamp y obligan a renombrar todo si
+cambia el orden.
+
+**No abreviar ingeniería de datos como `de-`.** En una lista de repos de alguien que escribe en
+español, `de-lakehouse-medallion` se lee como *«de lakehouse medallion»*. `dataeng-` es más feo
+pero inequívoco.
 
 **El orden en GitHub no lo da el nombre.** Lo dan los **repos fijados** (hasta 6), los **topics** y
 el **README de perfil** (repo `Merygonzalezisasa/Merygonzalezisasa`). El nombre solo hace que la
