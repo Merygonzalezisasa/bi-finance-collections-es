@@ -3,7 +3,7 @@
 ## Estado actual
 **Fase:** 3 (Power BI) — **CERRADA ✅** · Siguiente: Fase 4 (análisis Python) ·
 **Última sesión:** 2026-08-07
-**Repo:** https://github.com/Merygonzalezisasa/Portfolio
+**Repo:** https://github.com/Merygonzalezisasa/finance-analytics-es
 
 ## Bitácora
 
@@ -33,6 +33,7 @@
   documentadas en SETUP.md: inspección TLS (→ truststore), winget colgado (→ instalador directo)
 - [x] Power BI Desktop abre correctamente (confirmado por Rosmary, 2026-07-17)
 - [x] Repo publicado: **github.com/Merygonzalezisasa/Portfolio** (rama `main`, 2 commits)
+  — renombrado a **`finance-analytics-es`** el 2026-08-09 al adoptar convención de nombres
 
 ## Fase 0.5 — CERRADA ✅ (2026-07-17)
 
@@ -270,6 +271,32 @@ media 3,96 %): el riesgo está en el cliente, no en el producto.
 - Las tarjetas de días (`Retraso medio`, `Brecha pyme-corporate`) no muestran unidad. Requiere
   tocar el `formatString` de una medida preexistente.
 - No se verificó por clic que los botones de navegación salten (los `visualLink` validan).
+
+## Convención de nombres para los repos del portfolio (2026-08-09)
+
+Regla adoptada para **todos** los proyectos que se publiquen en GitHub:
+
+> **`<dominio>-<entregable>-<mercado>`** · minúsculas, guiones, en inglés, sin números ni
+> abreviaturas crípticas. El sufijo de mercado (`-es`) solo cuando el análisis dependa del país.
+
+| Proyecto | Repo |
+|---|---|
+| Este (facturación y cobros B2B en España) | `finance-analytics-es` |
+| *(ejemplos de cómo escala)* | `retail-demand-forecast-es` |
+| | `hr-attrition-analysis-es` |
+
+**Por qué esta y no otras.** Se descartó el prefijo agrupador (`analytics-…`) porque repite
+espacio útil en cada nombre, y el esquema numerado (`portfolio-01-…`) porque los números se leen
+como ejercicios de bootcamp y obligan a renombrar todo si cambia el orden.
+
+**El orden en GitHub no lo da el nombre.** Lo dan los **repos fijados** (hasta 6), los **topics** y
+el **README de perfil** (repo `Merygonzalezisasa/Merygonzalezisasa`). El nombre solo hace que la
+serie se lea como deliberada.
+
+**Un repo por proyecto, no un monorepo.** La estructura de este repo (`00_setup`, `01_etl`,
+`02_sql`, `03_powerbi`, `04_analysis`, `05_docs`) es la de *un* proyecto: meter un segundo dentro
+obligaría a anidar todo bajo `proyecto-2/`. Cada proyecto va en su repo, con su README y su
+historial, y el portfolio es el perfil.
 
 ## Dudas abiertas
 - ¿El forward fill del fin de semana (EUR/USD) puede sesgar la correlación? → revisar en la Fase 4
