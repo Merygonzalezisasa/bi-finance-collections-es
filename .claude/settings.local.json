@@ -1,7 +1,15 @@
 {
   "permissions": {
     "allow": [
-      "PowerShell([Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; foreach \\($v in @\\(\"16.11\",\"16.10\",\"16.9\",\"16.8\"\\)\\) { $url = \"https://get.enterprisedb.com/postgresql/postgresql-$v-1-windows-x64.exe\"; try { $r = Invoke-WebRequest -Method Head $url -TimeoutSec 20 -ErrorAction Stop; \"ENCONTRADO: $v \\($\\([Math]::Round\\($r.Headers.'Content-Length'/1MB\\)\\) MB\\) -> $url\"; break } catch { \"no: $v\" } })"
+      "PowerShell([Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; foreach \\($v in @\\(\"16.11\",\"16.10\",\"16.9\",\"16.8\"\\)\\) { $url = \"https://get.enterprisedb.com/postgresql/postgresql-$v-1-windows-x64.exe\"; try { $r = Invoke-WebRequest -Method Head $url -TimeoutSec 20 -ErrorAction Stop; \"ENCONTRADO: $v \\($\\([Math]::Round\\($r.Headers.'Content-Length'/1MB\\)\\) MB\\) -> $url\"; break } catch { \"no: $v\" } })",
+      "Bash(powerbi-report-author --version)",
+      "Bash(powerbi-desktop --version)",
+      "PowerShell(winget install OpenJS.NodeJS.LTS --source winget --accept-package-agreements --accept-source-agreements)",
+      "Bash(node -e ' *)",
+      "mcp__powerbi-modeling-mcp__connection_operations",
+      "mcp__powerbi-modeling-mcp__dax_query_operations",
+      "mcp__powerbi-modeling-mcp__column_operations",
+      "mcp__powerbi-modeling-mcp__measure_operations"
     ]
   }
 }
