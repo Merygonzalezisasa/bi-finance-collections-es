@@ -3,8 +3,8 @@
 ## Estado actual
 **Fase:** 3 (Power BI) — **CERRADA ✅** · Siguiente: Fase 4 (análisis Python) ·
 **Última sesión:** 2026-08-07
-**Repo:** https://github.com/Merygonzalezisasa/Portfolio
-→ **pendiente de renombrar a `bi-finance-collections-es`** (ver «Convención de nombres»)
+**Repo:** https://github.com/Merygonzalezisasa/bi-finance-collections-es
+*(renombrado desde `Portfolio` el 2026-08-09; GitHub redirige la URL antigua)*
 
 ## Bitácora
 
