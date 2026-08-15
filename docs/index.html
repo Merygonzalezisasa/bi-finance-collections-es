@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rosmary González Isasa · Analista de datos</title>
+<meta name="description" content="Portfolio de análisis de datos: Power BI, DAX, modelado de datos, Python y SQL. Proyecto de facturación y cobros B2B con contexto macroeconómico español.">
+
+<!-- Vista previa al compartir el enlace en LinkedIn -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="Rosmary González Isasa · Analista de datos">
+<meta property="og:description" content="Power BI, DAX y modelado de datos. Facturación y cobros B2B cruzados con Euríbor e IPC.">
+<meta property="og:image" content="https://merygonzalezisasa.github.io/bi-finance-collections-es/img/impacto-financiero.png">
+<meta property="og:url" content="https://merygonzalezisasa.github.io/bi-finance-collections-es/">
+<meta name="twitter:card" content="summary_large_image">
+
+<style>
+  :root{
+    --navy:#1B2A4A; --coral:#D9784F; --azul:#4A90A4; --ambar:#E8B04B;
+    --gris:#6B7A99; --borde:#E4E7EC; --fondo:#F4F5F7; --blanco:#FFFFFF;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; background:var(--fondo); color:var(--navy);
+    font-family:"Segoe UI","Segoe UI Variable",system-ui,-apple-system,sans-serif;
+    line-height:1.55; -webkit-font-smoothing:antialiased;
+  }
+  .envoltorio{max-width:1120px; margin:0 auto; padding:56px 24px 40px;}
+
+  /* ---------- cabecera ---------- */
+  header{text-align:center; margin-bottom:52px;}
+  h1{font-size:clamp(1.9rem,4.5vw,2.7rem); font-weight:600; margin:0 0 6px; letter-spacing:-.02em;}
+  .rol{font-size:clamp(.95rem,2vw,1.1rem); color:var(--coral); font-weight:600; margin:0 0 20px;}
+  .enlaces{display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-bottom:26px;}
+  .enlaces a{
+    display:inline-flex; align-items:center; gap:7px;
+    padding:8px 16px; border:1px solid var(--borde); border-radius:999px;
+    background:var(--blanco); color:var(--navy); text-decoration:none;
+    font-size:.88rem; font-weight:600; transition:.16s ease;
+  }
+  .enlaces a:hover{border-color:var(--coral); color:var(--coral); transform:translateY(-1px);}
+  .enlaces svg{width:15px; height:15px; fill:currentColor;}
+  .sobre-mi{
+    max-width:660px; margin:0 auto; color:var(--gris); font-size:.98rem;
+    background:var(--blanco); border:1px solid var(--borde); border-radius:12px;
+    padding:20px 26px; text-align:left;
+  }
+  .sobre-mi p{margin:0;}
+  .sobre-mi p + p{margin-top:8px;}
+
+  /* ---------- contexto del proyecto ---------- */
+  .contexto{
+    margin:48px 0 22px; padding-bottom:14px; border-bottom:1px solid var(--borde);
+    display:flex; align-items:baseline; justify-content:space-between; gap:16px; flex-wrap:wrap;
+  }
+  .contexto h2{font-size:1.15rem; font-weight:600; margin:0;}
+  .contexto span{font-size:.86rem; color:var(--gris);}
+
+  /* ---------- rejilla de tarjetas ---------- */
+  .rejilla{display:grid; grid-template-columns:repeat(3,1fr); gap:26px;}
+  @media(max-width:900px){.rejilla{grid-template-columns:repeat(2,1fr);}}
+  @media(max-width:620px){.rejilla{grid-template-columns:1fr;}}
+
+  .tarjeta{
+    display:flex; flex-direction:column; text-decoration:none; color:inherit;
+    background:var(--blanco); border:1px solid var(--borde); border-radius:12px;
+    overflow:hidden; transition:.18s ease;
+  }
+  .tarjeta:hover{
+    border-color:var(--coral); transform:translateY(-3px);
+    box-shadow:0 10px 24px rgba(27,42,74,.10);
+  }
+  .lienzo{
+    aspect-ratio:16/10; background:var(--fondo);
+    border-bottom:1px solid var(--borde); overflow:hidden;
+  }
+  .lienzo img{width:100%; height:100%; object-fit:cover; object-position:top left; display:block;}
+  .cuerpo{padding:15px 18px 17px;}
+  .etiqueta{
+    font-size:.68rem; font-weight:700; letter-spacing:.09em; text-transform:uppercase;
+    color:var(--coral); margin-bottom:5px;
+  }
+  .tarjeta h3{font-size:1rem; font-weight:600; margin:0 0 6px;}
+  .tarjeta p{font-size:.85rem; color:var(--gris); margin:0;}
+
+  /* ---------- pie ---------- */
+  footer{
+    margin-top:56px; padding-top:26px; border-top:1px solid var(--borde);
+    display:flex; justify-content:space-between; align-items:center; gap:16px; flex-wrap:wrap;
+    font-size:.85rem; color:var(--gris);
+  }
+  footer strong{color:var(--navy); font-weight:600;}
+  footer a{color:var(--gris); text-decoration:none; border-bottom:1px solid var(--borde);}
+  footer a:hover{color:var(--coral); border-color:var(--coral);}
+  .nota{margin-top:14px; font-size:.78rem; color:var(--gris); opacity:.85; flex-basis:100%;}
+</style>
+</head>
+<body>
+<div class="envoltorio">
+
+  <header>
+    <h1>Rosmary González Isasa</h1>
+    <p class="rol">Analista de datos · Business Intelligence</p>
+
+    <nav class="enlaces">
+      <a href="https://www.linkedin.com/in/rosmary-gonzalez-isasa" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05a3.74 3.74 0 0 1 3.37-1.85c3.6 0 4.27 2.37 4.27 5.46zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13M7.12 20.45H3.56V9h3.56zM22.22 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.72V1.72C24 .77 23.2 0 22.22 0"/></svg>
+        LinkedIn
+      </a>
+      <a href="https://github.com/Merygonzalezisasa" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 0-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-5.9 0-1.3.5-2.4 1.2-3.2 0-.4-.5-1.6.2-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17.4 4.6 18.4 5 18.4 5c.7 1.6.2 2.8.1 3.1.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.5.4.9 1.1.9 2.3v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .3"/></svg>
+        GitHub
+      </a>
+    </nav>
+
+    <div class="sobre-mi">
+      <p>Analista de datos especializada en Power BI, DAX y modelado de datos.</p>
+      <p>Desarrollo scripts en Python para automatizar procesos de extracción y preparación de los datos y gestión de bases de datos SQL.</p>
+    </div>
+  </header>
+
+  <div class="contexto">
+    <h2>Finance Analytics España · facturación y cobros B2B</h2>
+    <span>15.000 facturas · 120 clientes · ene 2024 – jun 2026</span>
+  </div>
+
+  <main class="rejilla">
+
+    <a class="tarjeta" href="img/impacto-financiero.png">
+      <div class="lienzo"><img src="img/impacto-financiero.png" alt="Página de impacto financiero del informe de Power BI, con KPIs y la brecha de retraso entre pyme y corporate"></div>
+      <div class="cuerpo">
+        <div class="etiqueta">Power BI</div>
+        <h3>Dashboard</h3>
+        <p>KPIs financieros y el cruce con el Euríbor. La correlación se invierte entre tramos.</p>
+      </div>
+    </a>
+
+    <a class="tarjeta" href="img/inteligencia-tiempo.png">
+      <div class="lienzo"><img src="img/inteligencia-tiempo.png" alt="Página de inteligencia de tiempo con comparativas interanuales, acumulado del año y media móvil"></div>
+      <div class="cuerpo">
+        <div class="etiqueta">Power BI · DAX</div>
+        <h3>KPIs e inteligencia de tiempo</h3>
+        <p>Interanual, acumulado del año y media móvil sobre calendario marcado como fecha.</p>
+      </div>
+    </a>
+
+    <a class="tarjeta" href="img/pareto-abc.png">
+      <div class="lienzo"><img src="img/pareto-abc.png" alt="Curva de Pareto de 120 clientes ordenados por facturación, con clasificación ABC"></div>
+      <div class="cuerpo">
+        <div class="etiqueta">Power BI</div>
+        <h3>Pareto y concentración ABC</h3>
+        <p>Aquí no se cumple el 80/20: hacen falta 58 de 120 clientes para el 80 % de la facturación.</p>
+      </div>
+    </a>
+
+    <a class="tarjeta" href="https://github.com/Merygonzalezisasa/bi-finance-collections-es/tree/main/02_sql" target="_blank" rel="noopener">
+      <div class="lienzo"><img src="img/esquema-estrella.png" alt="Diagrama del esquema estrella en PostgreSQL: tabla de hechos rodeada de cinco dimensiones"></div>
+      <div class="cuerpo">
+        <div class="etiqueta">PostgreSQL</div>
+        <h3>Base de datos</h3>
+        <p>Esquema estrella con claves foráneas, cinco vistas analíticas y procedimientos almacenados.</p>
+      </div>
+    </a>
+
+    <a class="tarjeta" href="https://github.com/Merygonzalezisasa/bi-finance-collections-es/tree/main/01_etl" target="_blank" rel="noopener">
+      <div class="lienzo"><img src="img/flujo-etl.png" alt="Diagrama del pipeline: cuatro APIs públicas y un generador sintético que pasan por scripts de Python hacia PostgreSQL"></div>
+      <div class="cuerpo">
+        <div class="etiqueta">Python</div>
+        <h3>Automatización</h3>
+        <p>Extracción de cuatro APIs con reintentos y validación, y carga idempotente en Postgres.</p>
+      </div>
+    </a>
+
+    <a class="tarjeta" href="https://github.com/Merygonzalezisasa/bi-finance-collections-es/blob/main/04_analysis/01_eda.ipynb" target="_blank" rel="noopener">
+      <div class="lienzo"><img src="img/notebook-eda.png" alt="Gráfico del notebook: retraso medio de pago por segmento frente a la evolución del Euríbor"></div>
+      <div class="cuerpo">
+        <div class="etiqueta">Python · pandas</div>
+        <h3>Notebook EDA</h3>
+        <p>Diez chequeos de calidad, detección de outliers y el cruce con el contexto macro.</p>
+      </div>
+    </a>
+
+  </main>
+
+  <footer>
+    <div><strong>Rosmary González Isasa</strong> · Analista de datos</div>
+    <div>
+      <a href="https://www.linkedin.com/in/rosmary-gonzalez-isasa" target="_blank" rel="noopener">LinkedIn</a>
+      &nbsp;·&nbsp;
+      <a href="https://github.com/Merygonzalezisasa" target="_blank" rel="noopener">GitHub</a>
+    </div>
+    <p class="nota">
+      Euríbor 12M: BCE · IPC: INE · EUR/USD: Frankfurter · Festivos: Nager.Date.
+      La facturación es sintética y está declarada como tal: el proyecto demuestra el pipeline y el análisis, no describe una empresa real.
+    </p>
+  </footer>
+
+</div>
+</body>
+</html>
