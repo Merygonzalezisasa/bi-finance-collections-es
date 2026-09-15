@@ -55,6 +55,22 @@
   }
   .contexto h2{font-size:1.15rem; font-weight:600; margin:0;}
   .contexto span{font-size:.86rem; color:var(--gris);}
+  .cta{
+    display:inline-flex; align-items:center; gap:8px; padding:9px 18px;
+    background:var(--coral); color:#fff; text-decoration:none;
+    border-radius:999px; font-size:.88rem; font-weight:600;
+    transition:.16s ease; white-space:nowrap;
+  }
+  .cta:hover{background:#c96940; transform:translateY(-1px);
+             box-shadow:0 6px 16px rgba(217,120,79,.32);}
+  .cta::before{content:""; width:7px; height:7px; border-radius:50%;
+               background:#fff; opacity:.9;}
+  .vivo{
+    display:inline-block; margin-left:7px; padding:2px 7px;
+    background:rgba(217,120,79,.12); color:var(--coral);
+    border-radius:4px; font-size:.6rem; font-weight:700;
+    letter-spacing:.06em; vertical-align:middle;
+  }
 
   /* ---------- rejilla de tarjetas ---------- */
   .rejilla{display:grid; grid-template-columns:repeat(3,1fr); gap:26px;}
@@ -122,32 +138,33 @@
   <div class="contexto">
     <h2>Finance Analytics España · facturación y cobros B2B</h2>
     <span>15.000 facturas · 120 clientes · ene 2024 – jun 2026</span>
+    <a class="cta" href="https://app.powerbi.com/view?r=eyJrIjoiMWFhMGM3MGUtNzFmOC00NmY4LTkwMWItODYzMGE2MDNmODU4IiwidCI6IjhkYWIyOTY1LTkwZjUtNDM1NC1iODZhLTdkZDk2MmNhMGM1NSJ9" target="_blank" rel="noopener">Abrir el dashboard interactivo</a>
   </div>
 
   <main class="rejilla">
 
-    <a class="tarjeta" href="img/impacto-financiero.png">
+    <a class="tarjeta" href="https://app.powerbi.com/view?r=eyJrIjoiMWFhMGM3MGUtNzFmOC00NmY4LTkwMWItODYzMGE2MDNmODU4IiwidCI6IjhkYWIyOTY1LTkwZjUtNDM1NC1iODZhLTdkZDk2MmNhMGM1NSJ9&amp;pageName=2e29cbfe90624d08328d" target="_blank" rel="noopener">
       <div class="lienzo"><img src="img/impacto-financiero.png" alt="Página de impacto financiero del informe de Power BI, con KPIs y la brecha de retraso entre pyme y corporate"></div>
       <div class="cuerpo">
-        <div class="etiqueta">Power BI</div>
+        <div class="etiqueta">Power BI<span class="vivo">INTERACTIVO</span></div>
         <h3>Dashboard</h3>
         <p>KPIs financieros y el cruce con el Euríbor. La correlación se invierte entre tramos.</p>
       </div>
     </a>
 
-    <a class="tarjeta" href="img/inteligencia-tiempo.png">
+    <a class="tarjeta" href="https://app.powerbi.com/view?r=eyJrIjoiMWFhMGM3MGUtNzFmOC00NmY4LTkwMWItODYzMGE2MDNmODU4IiwidCI6IjhkYWIyOTY1LTkwZjUtNDM1NC1iODZhLTdkZDk2MmNhMGM1NSJ9&amp;pageName=pagina5-tiempo" target="_blank" rel="noopener">
       <div class="lienzo"><img src="img/inteligencia-tiempo.png" alt="Página de inteligencia de tiempo con comparativas interanuales, acumulado del año y media móvil"></div>
       <div class="cuerpo">
-        <div class="etiqueta">Power BI · DAX</div>
+        <div class="etiqueta">Power BI · DAX<span class="vivo">INTERACTIVO</span></div>
         <h3>KPIs e inteligencia de tiempo</h3>
         <p>Interanual, acumulado del año y media móvil sobre calendario marcado como fecha.</p>
       </div>
     </a>
 
-    <a class="tarjeta" href="img/pareto-abc.png">
+    <a class="tarjeta" href="https://app.powerbi.com/view?r=eyJrIjoiMWFhMGM3MGUtNzFmOC00NmY4LTkwMWItODYzMGE2MDNmODU4IiwidCI6IjhkYWIyOTY1LTkwZjUtNDM1NC1iODZhLTdkZDk2MmNhMGM1NSJ9&amp;pageName=pagina4-pareto" target="_blank" rel="noopener">
       <div class="lienzo"><img src="img/pareto-abc.png" alt="Curva de Pareto de 120 clientes ordenados por facturación, con clasificación ABC"></div>
       <div class="cuerpo">
-        <div class="etiqueta">Power BI</div>
+        <div class="etiqueta">Power BI<span class="vivo">INTERACTIVO</span></div>
         <h3>Pareto y concentración ABC</h3>
         <p>Aquí no se cumple el 80/20: hacen falta 58 de 120 clientes para el 80 % de la facturación.</p>
       </div>
