@@ -88,17 +88,34 @@ todo lo que se calcula «a hoy» usa esa fecha, no la del sistema.
 
 ```bash
 python -m venv .venv && .venv\Scripts\activate
-pip install -r requirements.txt
-copy .env.example .env          # y rellenar las credenciales de PostgreSQL
+pip install -r requirements-lock.txt
+copy .env.example .env          # y rellenar la contraseña de PostgreSQL
 
+createdb -U postgres finance_analytics
+pg_restore -U postgres -d finance_analytics 02_sql/dump/finance_analytics.dump
+```
+
+Eso deja las 15.000 facturas, las cinco vistas y los tres procedimientos tal como
+los describen el dashboard y el cuaderno.
+
+Si lo que quieres es reconstruir los datos desde cero en lugar de restaurarlos:
+
+```bash
 python 01_etl/generate_facturas_data.py      # 15.000 facturas, SEED=42
 python 01_etl/extract_contexto_macro.py      # las cuatro APIs
 python 01_etl/load_to_postgres.py            # carga idempotente
 python 01_etl/verificar_carga.py             # cuatro chequeos de integridad
 ```
 
+La facturación saldrá idéntica, porque la semilla está fija. El contexto
+macroeconómico no: esas series siguen creciendo y la extracción traerá meses
+posteriores al cierre del proyecto, así que las cifras del informe dejarán de
+cuadrar. Por eso el volcado es la vía fiel, y la regeneración, la vía para
+actualizar el periodo.
+
 El cuaderno de `04_analysis/` lee directamente de PostgreSQL, así que necesita el
-servicio levantado y el `.env` configurado.
+servicio levantado y el `.env` configurado. Los pasos completos, incluido el
+registro del kernel de Jupyter, están en [SETUP.md](SETUP.md).
 
 ## Tres decisiones que condicionan todo lo demás
 
