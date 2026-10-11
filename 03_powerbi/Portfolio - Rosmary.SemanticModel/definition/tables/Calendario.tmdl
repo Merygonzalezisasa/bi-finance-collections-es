@@ -6,85 +6,107 @@ table Calendario
 	column Date
 		isUnique
 		formatString: yyyy-mm-dd
+		lineageTag: 1a271b29-4f93-4180-b7ba-ec4092ecf98f
 		summarizeBy: none
 		isNameInferred
 		sourceColumn: [Date]
 
 	column anio
+		lineageTag: 16d8a2bb-fa1e-4ec7-b1bd-894aa030235f
 		summarizeBy: none
 		isNameInferred
 		sourceColumn: [anio]
 
 	column trimestre
+		lineageTag: c11c0450-98b7-4f7a-b81e-0d1031a3dd32
 		summarizeBy: none
 		isNameInferred
 		sourceColumn: [trimestre]
 
 	column trimestre_nombre
+		lineageTag: 9dbe04d9-2673-4f5b-8593-8161df84ce53
 		isNameInferred
 		sourceColumn: [trimestre_nombre]
 
 	column anio_trimestre
+		lineageTag: e22a9ffa-7bcf-415d-8cde-162647e99576
 		isNameInferred
 		sourceColumn: [anio_trimestre]
 
 	column mes
+		lineageTag: 07ca59f4-6439-47b5-9a61-8b3c762aa083
 		summarizeBy: none
 		isNameInferred
 		sourceColumn: [mes]
 
 	column mes_nombre
+		lineageTag: 578464ee-3b6f-4572-9ee4-b6704a1ecbec
 		isNameInferred
 		sourceColumn: [mes_nombre]
 		sortByColumn: mes
 
 	column mes_corto
+		lineageTag: 01d2a8d6-1c86-4296-a319-eec0696648b2
 		isNameInferred
 		sourceColumn: [mes_corto]
 		sortByColumn: mes
 
 	column anio_mes
+		lineageTag: 5c4625c4-7e5f-48a1-b3a6-a9053ae255eb
 		isNameInferred
 		sourceColumn: [anio_mes]
 		sortByColumn: anio_mes_orden
 
 	column anio_mes_orden
 		isHidden
+		lineageTag: c39ae4ec-ffe8-44e2-aafd-37884113a5b0
 		summarizeBy: none
 		isNameInferred
 		sourceColumn: [anio_mes_orden]
 
 	column dia
+		lineageTag: 87bede6b-3280-44c5-ad63-8e1a6eb9eac7
 		summarizeBy: none
 		isNameInferred
 		sourceColumn: [dia]
 
 	column dia_semana_num
+		lineageTag: 02b10d48-59f5-4fef-9567-692f8cbb405f
 		summarizeBy: none
 		isNameInferred
 		sourceColumn: [dia_semana_num]
 
 	column dia_semana
+		lineageTag: af7367fb-c2e9-4b32-8304-8b7885f643d1
 		isNameInferred
 		sourceColumn: [dia_semana]
 		sortByColumn: dia_semana_num
 
 	column es_fin_de_semana
+		lineageTag: 572467e2-2c20-450b-8b17-ae431aa273f4
 		isNameInferred
 		sourceColumn: [es_fin_de_semana]
 
 	column semana_iso
+		lineageTag: fdd6153d-7529-4e82-a764-96fe693b5b39
 		summarizeBy: none
 		isNameInferred
 		sourceColumn: [semana_iso]
 
 	column es_fin_de_mes
+		lineageTag: 5bfefe9e-d029-417d-bd34-72fbe3de1941
 		isNameInferred
 		sourceColumn: [es_fin_de_mes]
 
 	column es_cierre_trimestre
+		lineageTag: ff4e451f-9b47-4383-ab73-5b96d9e1b4e4
 		isNameInferred
 		sourceColumn: [es_cierre_trimestre]
+
+	column anio_mes_corto = Calendario[mes_corto] & "-" & RIGHT(FORMAT(Calendario[anio], "0"), 2)
+		lineageTag: e7254458-0a32-4417-9ab2-7a60e499e899
+		summarizeBy: none
+		sortByColumn: anio_mes_orden
 
 	partition Calendario = calculated
 		mode: import

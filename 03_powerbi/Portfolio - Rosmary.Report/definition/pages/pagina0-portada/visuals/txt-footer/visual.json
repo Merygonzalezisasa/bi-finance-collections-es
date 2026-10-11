@@ -1,13 +1,13 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
   "name": "txt-footer",
   "position": {
     "x": 24,
-    "y": 616,
-    "z": 0,
+    "y": 610,
+    "z": 5000,
     "height": 60,
     "width": 1232,
-    "tabOrder": 90
+    "tabOrder": 17000
   },
   "visual": {
     "visualType": "textbox",
@@ -23,11 +23,10 @@
                     "textStyle": {
                       "fontFamily": "Segoe UI Semibold",
                       "fontSize": "10px",
-                      "color": "#D9784F"
+                      "color": "#d9784f"
                     }
                   }
-                ],
-                "horizontalTextAlignment": "left"
+                ]
               },
               {
                 "textRuns": [
@@ -36,11 +35,10 @@
                     "textStyle": {
                       "fontFamily": "Segoe UI",
                       "fontSize": "10px",
-                      "color": "#6B7A99"
+                      "color": "#6b7a99"
                     }
                   }
-                ],
-                "horizontalTextAlignment": "left"
+                ]
               }
             ]
           }

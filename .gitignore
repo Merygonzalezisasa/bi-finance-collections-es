@@ -14,3 +14,7 @@ data/processed/
 
 # Power BI temporales
 *.pbix.tmp
+
+# Power BI: ajustes de maquina y cache de datos, se regeneran solos
+**/.pbi/localSettings.json
+**/.pbi/cache.abf

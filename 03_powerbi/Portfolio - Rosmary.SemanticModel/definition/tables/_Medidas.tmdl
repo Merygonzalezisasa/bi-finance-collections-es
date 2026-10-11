@@ -282,13 +282,13 @@ table _Medidas
 
 	/// Retraso medio de pago del segmento pyme. Aislado para comparar contra corporate.
 	measure 'Retraso pyme' = CALCULATE ( [Retraso medio], dim_cliente[segmento] = "pyme" )
-		formatString: 0.0
+		formatString: 0" d"
 		displayFolder: 03 Plazos
 		lineageTag: b46d87af-23d6-40a3-9819-4211b6b0140f
 
 	/// Retraso medio de pago del segmento corporate. Aislado para comparar contra pyme.
 	measure 'Retraso corporate' = CALCULATE ( [Retraso medio], dim_cliente[segmento] = "corporate" )
-		formatString: 0.0
+		formatString: 0" d"
 		displayFolder: 03 Plazos
 		lineageTag: cdddd298-c202-426d-931f-e944a9b3cbbc
 
@@ -298,8 +298,440 @@ table _Medidas
 		displayFolder: 03 Plazos
 		lineageTag: 71c42d92-b26a-4830-9b6c-f3ab41c47d7c
 
+	/// Linea de detalle de la tarjeta de facturacion en la portada. Devuelve texto ya
+	/// formateado para que la tarjeta lo muestre sin necesidad de literales estaticos.
+	measure 'Detalle facturado' = FORMAT ( [N facturas], "#,##0" ) & " facturas · " & FORMAT ( [Clientes activos], "#,##0" ) & " clientes"
+		displayFolder: 07 Portada
+		lineageTag: 3a71c6d2-5e08-41bb-9c4a-2f6e1d8b7a01
+
+	/// Linea de detalle de la tarjeta de cobro en la portada.
+	measure 'Detalle cobrado' = FORMAT ( DIVIDE ( [Pendiente], 1000000 ), "#,##0.0" ) & " M€ pendientes de cobro"
+		displayFolder: 07 Portada
+		lineageTag: 3a71c6d2-5e08-41bb-9c4a-2f6e1d8b7a02
+
+	/// Linea de detalle de la tarjeta de retraso en la portada. Aisla el sector publico,
+	/// que es el caso extremo frente a la media global.
+	measure 'Detalle retraso' = "el sector público llega a +" & FORMAT ( CALCULATE ( [Retraso medio], dim_cliente[sector] = "sector público" ), "#,##0" ) & " d"
+		displayFolder: 07 Portada
+		lineageTag: 3a71c6d2-5e08-41bb-9c4a-2f6e1d8b7a03
+
+	/// Ultimo dia del ultimo mes completo con facturas emitidas, con margen de 3 meses para que el cobro haya madurado. Base para los indicadores de tendencia de la portada.
+	measure '_Fecha fin mes actual' =
+			VAR MaxD = CALCULATE(MAX(fact_facturas[fecha_emision]), ALL(Calendario))
+			VAR MesCompleto = IF(MaxD = EOMONTH(MaxD,0), MaxD, EOMONTH(MaxD,-1))
+			RETURN EOMONTH(MesCompleto, -3)
+		isHidden
+		displayFolder: 07 Portada/_aux
+		lineageTag: b75f1ec8-6bf0-4c5f-860e-ac48b44078fa
+
+	measure 'Facturado mes actual' = CALCULATE([Facturado], ALL(Calendario), DATESBETWEEN(Calendario[Date], EOMONTH([_Fecha fin mes actual],-1)+1, [_Fecha fin mes actual]))
+		formatString: #,##0 €
+		isHidden
+		displayFolder: 07 Portada/_aux
+		lineageTag: c3a6177f-619c-43c0-b8d9-3a54d9c45cac
+
+	measure 'Facturado mes anterior' =
+			VAR P = EOMONTH([_Fecha fin mes actual],-1)
+			RETURN CALCULATE([Facturado], ALL(Calendario), DATESBETWEEN(Calendario[Date], EOMONTH(P,-1)+1, P))
+		formatString: #,##0 €
+		isHidden
+		displayFolder: 07 Portada/_aux
+		lineageTag: 1e8a064e-c4dc-443a-be82-d1e9711e1480
+
+	measure 'Facturado mismo mes AA' =
+			VAR P = EOMONTH([_Fecha fin mes actual],-12)
+			RETURN CALCULATE([Facturado], ALL(Calendario), DATESBETWEEN(Calendario[Date], EOMONTH(P,-1)+1, P))
+		formatString: #,##0 €
+		isHidden
+		displayFolder: 07 Portada/_aux
+		lineageTag: 506cd558-1c67-46dc-af74-85490f46c93e
+
+	/// Variacion del ultimo mes completo facturado frente al mes anterior.
+	measure 'Var % MA Facturado' = DIVIDE([Facturado mes actual] - [Facturado mes anterior], [Facturado mes anterior])
+		formatString: +0.0%;-0.0%;0.0%
+		isHidden
+		displayFolder: 07 Portada
+		lineageTag: aaa99ef1-0b5a-4e12-8069-124384be6158
+
+	/// Variacion del ultimo mes completo facturado frente al mismo mes del anio anterior.
+	measure 'Var % AA Facturado mes' = DIVIDE([Facturado mes actual] - [Facturado mismo mes AA], [Facturado mismo mes AA])
+		formatString: +0.0%;-0.0%;0.0%
+		isHidden
+		displayFolder: 07 Portada
+		lineageTag: c53d1249-e681-49d8-9520-5196d186acfd
+
+	measure 'Var % MA Facturado (color)' =
+			VAR v = [Var % MA Facturado]
+			RETURN IF(ISBLANK(v), "#98A2B3", IF(v >= 0, "#1B8A5A", "#C0392B"))
+		isHidden
+		displayFolder: 07 Portada/_aux
+		lineageTag: 60be5d72-d045-4b03-8b12-8a2c947c31f1
+
+	measure 'Var % AA Facturado mes (color)' =
+			VAR v = [Var % AA Facturado mes]
+			RETURN IF(ISBLANK(v), "#98A2B3", IF(v >= 0, "#1B8A5A", "#C0392B"))
+		isHidden
+		displayFolder: 07 Portada/_aux
+		lineageTag: 64051825-60ef-402d-8765-6da9e2d89dfb
+
+	measure 'Cobrado mes actual' = CALCULATE([Cobrado], ALL(Calendario), DATESBETWEEN(Calendario[Date], EOMONTH([_Fecha fin mes actual],-1)+1, [_Fecha fin mes actual]))
+		formatString: #,##0 €
+		isHidden
+		displayFolder: 07 Portada/_aux
+		lineageTag: a028a1fb-19d9-451d-bdf1-9757ef02ee66
+
+	measure 'Cobrado mes anterior' =
+			VAR P = EOMONTH([_Fecha fin mes actual],-1)
+			RETURN CALCULATE([Cobrado], ALL(Calendario), DATESBETWEEN(Calendario[Date], EOMONTH(P,-1)+1, P))
+		formatString: #,##0 €
+		isHidden
+		displayFolder: 07 Portada/_aux
+		lineageTag: 80ee28a1-df10-465b-a088-6c266255721b
+
+	measure 'Cobrado mismo mes AA' =
+			VAR P = EOMONTH([_Fecha fin mes actual],-12)
+			RETURN CALCULATE([Cobrado], ALL(Calendario), DATESBETWEEN(Calendario[Date], EOMONTH(P,-1)+1, P))
+		formatString: #,##0 €
+		isHidden
+		displayFolder: 07 Portada/_aux
+		lineageTag: ecb1432f-f880-44e8-860f-87a2d64a9607
+
+	/// Variacion del ultimo mes completo cobrado frente al mes anterior.
+	measure 'Var % MA Cobrado' = DIVIDE([Cobrado mes actual] - [Cobrado mes anterior], [Cobrado mes anterior])
+		formatString: +0.0%;-0.0%;0.0%
+		isHidden
+		displayFolder: 07 Portada
+		lineageTag: 6dae6da1-a044-4c8b-a02c-acbc212aec64
+
+	/// Variacion del ultimo mes completo cobrado frente al mismo mes del anio anterior.
+	measure 'Var % AA Cobrado mes' = DIVIDE([Cobrado mes actual] - [Cobrado mismo mes AA], [Cobrado mismo mes AA])
+		formatString: +0.0%;-0.0%;0.0%
+		isHidden
+		displayFolder: 07 Portada
+		lineageTag: c8048337-c733-4dcd-9621-0f893bb04b67
+
+	measure 'Var % MA Cobrado (color)' =
+			VAR v = [Var % MA Cobrado]
+			RETURN IF(ISBLANK(v), "#98A2B3", IF(v >= 0, "#1B8A5A", "#C0392B"))
+		isHidden
+		displayFolder: 07 Portada/_aux
+		lineageTag: 74b36bda-2b30-417e-b41d-3a99475cf7fe
+
+	measure 'Var % AA Cobrado mes (color)' =
+			VAR v = [Var % AA Cobrado mes]
+			RETURN IF(ISBLANK(v), "#98A2B3", IF(v >= 0, "#1B8A5A", "#C0392B"))
+		isHidden
+		displayFolder: 07 Portada/_aux
+		lineageTag: 6587a16c-68ff-4e23-af15-f87c26ead9f9
+
+	measure 'Retraso mes actual' = CALCULATE([Retraso medio], ALL(Calendario), DATESBETWEEN(Calendario[Date], EOMONTH([_Fecha fin mes actual],-1)+1, [_Fecha fin mes actual]))
+		formatString: #,##0.0
+		isHidden
+		displayFolder: 07 Portada/_aux
+		lineageTag: 5d3bceb5-eb34-4209-831e-233bbd6ba186
+
+	measure 'Retraso mes anterior' =
+			VAR P = EOMONTH([_Fecha fin mes actual],-1)
+			RETURN CALCULATE([Retraso medio], ALL(Calendario), DATESBETWEEN(Calendario[Date], EOMONTH(P,-1)+1, P))
+		formatString: #,##0.0
+		isHidden
+		displayFolder: 07 Portada/_aux
+		lineageTag: 38df4013-f58f-4d3b-98ae-44dac037b2e5
+
+	measure 'Retraso mismo mes AA' =
+			VAR P = EOMONTH([_Fecha fin mes actual],-12)
+			RETURN CALCULATE([Retraso medio], ALL(Calendario), DATESBETWEEN(Calendario[Date], EOMONTH(P,-1)+1, P))
+		formatString: #,##0.0
+		isHidden
+		displayFolder: 07 Portada/_aux
+		lineageTag: 0acb32fd-4973-49db-a9c4-2601b44547f0
+
+	/// Variacion en dias del retraso medio del ultimo mes completo frente al mes anterior.
+	measure 'Var d MA Retraso' = [Retraso mes actual] - [Retraso mes anterior]
+		formatString: +0.0" d";-0.0" d";0.0" d"
+		isHidden
+		displayFolder: 07 Portada
+		lineageTag: 7d2db1ec-6fb1-4b04-8624-c5481271850c
+
+	/// Variacion en dias del retraso medio del ultimo mes completo frente al mismo mes del anio anterior.
+	measure 'Var d AA Retraso mes' = [Retraso mes actual] - [Retraso mismo mes AA]
+		formatString: +0.0" d";-0.0" d";0.0" d"
+		isHidden
+		displayFolder: 07 Portada
+		lineageTag: 3047da72-a606-4b01-957f-ca5c07103c9b
+
+	measure 'Var d MA Retraso (color)' =
+			VAR v = [Var d MA Retraso]
+			RETURN IF(ISBLANK(v), "#98A2B3", IF(v <= 0, "#1B8A5A", "#C0392B"))
+		isHidden
+		displayFolder: 07 Portada/_aux
+		lineageTag: 7998ad4a-140b-4956-9bde-4b1d3dab57bb
+
+	measure 'Var d AA Retraso mes (color)' =
+			VAR v = [Var d AA Retraso mes]
+			RETURN IF(ISBLANK(v), "#98A2B3", IF(v <= 0, "#1B8A5A", "#C0392B"))
+		isHidden
+		displayFolder: 07 Portada/_aux
+		lineageTag: 0f13529e-6615-4168-b9ea-e57489e85f22
+
+	measure 'Ratio mes actual' = CALCULATE([% cobrado], ALL(Calendario), DATESBETWEEN(Calendario[Date], EOMONTH([_Fecha fin mes actual],-1)+1, [_Fecha fin mes actual]))
+		formatString: 0.0%
+		isHidden
+		displayFolder: 07 Portada/_aux
+		lineageTag: 63efc9bd-980b-4d93-9810-1dc9c73ec40b
+
+	measure 'Ratio mes anterior' =
+			VAR P = EOMONTH([_Fecha fin mes actual],-1)
+			RETURN CALCULATE([% cobrado], ALL(Calendario), DATESBETWEEN(Calendario[Date], EOMONTH(P,-1)+1, P))
+		formatString: 0.0%
+		isHidden
+		displayFolder: 07 Portada/_aux
+		lineageTag: ba21a903-c167-4498-9dd8-57245b9c6d94
+
+	measure 'Ratio mismo mes AA' =
+			VAR P = EOMONTH([_Fecha fin mes actual],-12)
+			RETURN CALCULATE([% cobrado], ALL(Calendario), DATESBETWEEN(Calendario[Date], EOMONTH(P,-1)+1, P))
+		formatString: 0.0%
+		isHidden
+		displayFolder: 07 Portada/_aux
+		lineageTag: 8c7602b5-6100-487a-bfee-2876bbfad896
+
+	/// Variacion del ratio de cobro del ultimo mes completo frente al mes anterior.
+	measure 'Var % MA Ratio' = [Ratio mes actual] - [Ratio mes anterior]
+		formatString: +0.0%;-0.0%;0.0%
+		isHidden
+		displayFolder: 07 Portada
+		lineageTag: cd420d79-07e7-4c30-8aae-e1834adf1216
+
+	/// Variacion del ratio de cobro del ultimo mes completo frente al mismo mes del anio anterior.
+	measure 'Var % AA Ratio mes' = [Ratio mes actual] - [Ratio mismo mes AA]
+		formatString: +0.0%;-0.0%;0.0%
+		isHidden
+		displayFolder: 07 Portada
+		lineageTag: bc5de589-5d9c-4356-af55-df054b517cd1
+
+	measure 'Var % MA Ratio (color)' =
+			VAR v = [Var % MA Ratio]
+			RETURN IF(ISBLANK(v), "#98A2B3", IF(v >= 0, "#1B8A5A", "#C0392B"))
+		isHidden
+		displayFolder: 07 Portada/_aux
+		lineageTag: f9dfa9f3-9219-4730-a0f1-2003f577f6d8
+
+	measure 'Var % AA Ratio mes (color)' =
+			VAR v = [Var % AA Ratio mes]
+			RETURN IF(ISBLANK(v), "#98A2B3", IF(v >= 0, "#1B8A5A", "#C0392B"))
+		isHidden
+		displayFolder: 07 Portada/_aux
+		lineageTag: cc233a37-c3df-44a5-b56f-ec0c1e1d016a
+
+	measure 'Vencido mes actual' = CALCULATE([Vencido], ALL(Calendario), DATESBETWEEN(Calendario[Date], EOMONTH([_Fecha fin mes actual],-1)+1, [_Fecha fin mes actual]))
+		formatString: #,##0 €
+		isHidden
+		displayFolder: 07 Portada/_aux
+		lineageTag: d4ee1a0f-2148-4d47-b1e1-fb3f1b16d5b3
+
+	measure 'Vencido mes anterior' =
+			VAR P = EOMONTH([_Fecha fin mes actual],-1)
+			RETURN CALCULATE([Vencido], ALL(Calendario), DATESBETWEEN(Calendario[Date], EOMONTH(P,-1)+1, P))
+		formatString: #,##0 €
+		isHidden
+		displayFolder: 07 Portada/_aux
+		lineageTag: c823df45-f34c-4056-ab66-37f6bfcc54e4
+
+	measure 'Vencido mismo mes AA' =
+			VAR P = EOMONTH([_Fecha fin mes actual],-12)
+			RETURN CALCULATE([Vencido], ALL(Calendario), DATESBETWEEN(Calendario[Date], EOMONTH(P,-1)+1, P))
+		formatString: #,##0 €
+		isHidden
+		displayFolder: 07 Portada/_aux
+		lineageTag: 1e232d16-bfbc-4fb9-aef4-c103bb087f1b
+
+	/// Variacion del ultimo mes completo vencido frente al mes anterior.
+	measure 'Var % MA Vencido' = DIVIDE([Vencido mes actual] - [Vencido mes anterior], [Vencido mes anterior])
+		formatString: +0.0%;-0.0%;0.0%
+		isHidden
+		displayFolder: 07 Portada
+		lineageTag: ce52e272-9063-4df2-ac76-8462651ccb76
+
+	/// Variacion del ultimo mes completo vencido frente al mismo mes del anio anterior.
+	measure 'Var % AA Vencido mes' = DIVIDE([Vencido mes actual] - [Vencido mismo mes AA], [Vencido mismo mes AA])
+		formatString: +0.0%;-0.0%;0.0%
+		isHidden
+		displayFolder: 07 Portada
+		lineageTag: 5bbcf7c7-1f18-41ba-9752-7ad040435c61
+
+	measure 'Var % MA Vencido (color)' =
+			VAR v = [Var % MA Vencido]
+			RETURN IF(ISBLANK(v), "#98A2B3", IF(v <= 0, "#1B8A5A", "#C0392B"))
+		isHidden
+		displayFolder: 07 Portada/_aux
+		lineageTag: 071215f1-23d9-4224-a7f0-786f63878749
+
+	measure 'Var % AA Vencido mes (color)' =
+			VAR v = [Var % AA Vencido mes]
+			RETURN IF(ISBLANK(v), "#98A2B3", IF(v <= 0, "#1B8A5A", "#C0392B"))
+		isHidden
+		displayFolder: 07 Portada/_aux
+		lineageTag: 80831377-7b91-46d7-8bd1-29dd32c998b2
+
+	/// Vencido del mes anterior y su variacion frente al mes en curso, listo para la tarjeta de Impacto financiero.
+	measure 'Comp MA Vencido' = FORMAT(DIVIDE([Vencido mes anterior],1000000), "#,##0.0") & " M€  " & IF([Var % MA Vencido] >= 0, "▲ ", "▼ ") & FORMAT(ABS([Var % MA Vencido]), "0.0%")
+		isHidden
+		displayFolder: 07 Portada
+		lineageTag: 1119919f-1188-449e-9e67-48cada8a1592
+
+	/// Vencido del mismo mes del anio anterior y su variacion, listo para la tarjeta de Impacto financiero.
+	measure 'Comp AA Vencido' = FORMAT(DIVIDE([Vencido mismo mes AA],1000000), "#,##0.0") & " M€  " & IF([Var % AA Vencido mes] >= 0, "▲ ", "▼ ") & FORMAT(ABS([Var % AA Vencido mes]), "0.0%")
+		isHidden
+		displayFolder: 07 Portada
+		lineageTag: 5faf4a4d-cc5d-46dc-b3db-70d6ea13773d
+
+	measure 'Brecha mes actual' = CALCULATE([Brecha pyme-corporate], ALL(Calendario), DATESBETWEEN(Calendario[Date], EOMONTH([_Fecha fin mes actual],-1)+1, [_Fecha fin mes actual]))
+		formatString: #,##0.0
+		isHidden
+		displayFolder: 07 Portada/_aux
+		lineageTag: 2d3fa8ea-691e-4cf3-a4c6-c24141195bfd
+
+	measure 'Brecha mes anterior' =
+			VAR P = EOMONTH([_Fecha fin mes actual],-1)
+			RETURN CALCULATE([Brecha pyme-corporate], ALL(Calendario), DATESBETWEEN(Calendario[Date], EOMONTH(P,-1)+1, P))
+		formatString: #,##0.0
+		isHidden
+		displayFolder: 07 Portada/_aux
+		lineageTag: dd976984-e05a-432f-953d-6e9465a45143
+
+	measure 'Brecha mismo mes AA' =
+			VAR P = EOMONTH([_Fecha fin mes actual],-12)
+			RETURN CALCULATE([Brecha pyme-corporate], ALL(Calendario), DATESBETWEEN(Calendario[Date], EOMONTH(P,-1)+1, P))
+		formatString: #,##0.0
+		isHidden
+		displayFolder: 07 Portada/_aux
+		lineageTag: 3ee7aa2b-1e3f-4e0a-acb8-98bd576d2819
+
+	/// Variacion en dias de la brecha pyme-corporate del ultimo mes completo frente al mes anterior.
+	measure 'Var d MA Brecha' = [Brecha mes actual] - [Brecha mes anterior]
+		formatString: +0.0" d";-0.0" d";0.0" d"
+		isHidden
+		displayFolder: 07 Portada
+		lineageTag: 0fc99024-ab3a-4a4b-8ca3-24211f9965b1
+
+	/// Variacion en dias de la brecha pyme-corporate frente al mismo mes del anio anterior.
+	measure 'Var d AA Brecha mes' = [Brecha mes actual] - [Brecha mismo mes AA]
+		formatString: +0.0" d";-0.0" d";0.0" d"
+		isHidden
+		displayFolder: 07 Portada
+		lineageTag: 019e0dd7-d747-408c-a594-6c5215601b43
+
+	measure 'Var d MA Brecha (color)' =
+			VAR v = [Var d MA Brecha]
+			RETURN IF(ISBLANK(v), "#98A2B3", IF(v <= 0, "#1B8A5A", "#C0392B"))
+		isHidden
+		displayFolder: 07 Portada/_aux
+		lineageTag: 4a079f3f-485a-40eb-bbcc-76846cef7d9e
+
+	measure 'Var d AA Brecha mes (color)' =
+			VAR v = [Var d AA Brecha mes]
+			RETURN IF(ISBLANK(v), "#98A2B3", IF(v <= 0, "#1B8A5A", "#C0392B"))
+		isHidden
+		displayFolder: 07 Portada/_aux
+		lineageTag: 70e47e2b-4161-438e-aa0c-f2ef126fed40
+
+	/// Brecha pyme-corporate del mes anterior y su variacion en dias, lista para la tarjeta de Impacto financiero.
+	measure 'Comp MA Brecha' = FORMAT([Brecha mes anterior], "#,##0.0") & " d  " & IF([Var d MA Brecha] >= 0, "▲ ", "▼ ") & FORMAT(ABS([Var d MA Brecha]), "0.0") & " d"
+		isHidden
+		displayFolder: 07 Portada
+		lineageTag: d9ea2c5f-203b-4b9c-a50b-eab7cd13db6d
+
+	/// Brecha pyme-corporate del mismo mes del anio anterior y su variacion, lista para la tarjeta de Impacto financiero.
+	measure 'Comp AA Brecha' = FORMAT([Brecha mismo mes AA], "#,##0.0") & " d  " & IF([Var d AA Brecha mes] >= 0, "▲ ", "▼ ") & FORMAT(ABS([Var d AA Brecha mes]), "0.0") & " d"
+		isHidden
+		displayFolder: 07 Portada
+		lineageTag: 1e43bf41-79e0-434d-8879-29e36280f109
+
+	/// Facturado del mes anterior y su variacion frente al mes en curso, listo para la tarjeta de Impacto financiero.
+	measure 'Comp MA Facturado' = FORMAT(DIVIDE([Facturado mes anterior],1000000), "#,##0.0") & " M€  " & IF([Var % MA Facturado] >= 0, "▲ ", "▼ ") & FORMAT(ABS([Var % MA Facturado]), "0.0%")
+		isHidden
+		displayFolder: 07 Portada
+		lineageTag: 8863c55b-e54d-4dca-a543-268495136082
+
+	/// Facturado del mismo mes del anio anterior y su variacion, listo para la tarjeta de Impacto financiero.
+	measure 'Comp AA Facturado' = FORMAT(DIVIDE([Facturado mismo mes AA],1000000), "#,##0.0") & " M€  " & IF([Var % AA Facturado mes] >= 0, "▲ ", "▼ ") & FORMAT(ABS([Var % AA Facturado mes]), "0.0%")
+		isHidden
+		displayFolder: 07 Portada
+		lineageTag: 69ae8734-380a-4740-983c-c47b7d13eeb7
+
+	/// Cobrado del mes anterior y su variacion frente al mes en curso, listo para la tarjeta de Impacto financiero.
+	measure 'Comp MA Cobrado' = FORMAT(DIVIDE([Cobrado mes anterior],1000000), "#,##0.0") & " M€  " & IF([Var % MA Cobrado] >= 0, "▲ ", "▼ ") & FORMAT(ABS([Var % MA Cobrado]), "0.0%")
+		isHidden
+		displayFolder: 07 Portada
+		lineageTag: 746d3803-c9e6-49e9-b927-065f7e376a9e
+
+	/// Cobrado del mismo mes del anio anterior y su variacion, listo para la tarjeta de Impacto financiero.
+	measure 'Comp AA Cobrado' = FORMAT(DIVIDE([Cobrado mismo mes AA],1000000), "#,##0.0") & " M€  " & IF([Var % AA Cobrado mes] >= 0, "▲ ", "▼ ") & FORMAT(ABS([Var % AA Cobrado mes]), "0.0%")
+		isHidden
+		displayFolder: 07 Portada
+		lineageTag: 9cb466a7-87d9-40cd-aea1-e19aca673b05
+
+	/// Retraso medio del mes anterior y su variacion en dias, listo para la tarjeta de Impacto financiero.
+	measure 'Comp MA Retraso' = FORMAT([Retraso mes anterior], "#,##0.0") & " d  " & IF([Var d MA Retraso] >= 0, "▲ ", "▼ ") & FORMAT(ABS([Var d MA Retraso]), "0.0") & " d"
+		isHidden
+		displayFolder: 07 Portada
+		lineageTag: eeedad1b-0b98-4b0a-b7c0-b62d164990db
+
+	/// Retraso medio del mismo mes del anio anterior y su variacion, listo para la tarjeta de Impacto financiero.
+	measure 'Comp AA Retraso' = FORMAT([Retraso mismo mes AA], "#,##0.0") & " d  " & IF([Var d AA Retraso mes] >= 0, "▲ ", "▼ ") & FORMAT(ABS([Var d AA Retraso mes]), "0.0") & " d"
+		isHidden
+		displayFolder: 07 Portada
+		lineageTag: 79050922-ba60-431e-ad21-e671c21ff8ac
+
+	/// Retraso medio del segmento pyme acumulado en el anio en curso.
+	measure 'Retraso pyme YTD' = TOTALYTD([Retraso pyme], Calendario[Date])
+		formatString: 0.0" d"
+		displayFolder: 03 Plazos
+		lineageTag: 9568b296-2537-4f0c-856b-c6c6aa133053
+
+	/// Retraso medio del segmento pyme acumulado en el mismo periodo del anio anterior.
+	measure 'Retraso pyme YTD AA' = CALCULATE([Retraso pyme YTD], SAMEPERIODLASTYEAR(Calendario[Date]))
+		formatString: 0.0" d"
+		displayFolder: 03 Plazos
+		lineageTag: 71b5fd42-5669-4743-ad55-4dfdad2132ae
+
+	/// Variacion en dias del retraso pyme acumulado en el anio frente al mismo periodo del anio anterior.
+	measure 'Var d YTD Retraso pyme' = [Retraso pyme YTD] - [Retraso pyme YTD AA]
+		formatString: +0.0" d";-0.0" d";0.0" d"
+		displayFolder: 03 Plazos
+		lineageTag: 56d370bb-c471-414c-b9cc-16e70765fa94
+
+	measure 'Var d YTD Retraso pyme (color)' =
+			VAR v = [Var d YTD Retraso pyme]
+			RETURN IF(ISBLANK(v), "#98A2B3", IF(v <= 0, "#1B8A5A", "#C0392B"))
+		isHidden
+		displayFolder: 03 Plazos/_aux
+		lineageTag: efc57a76-a8a2-4410-8b9c-7755819ef8ab
+
+	/// Retraso medio pyme en enero 2024, punto de partida de la narrativa de la brecha pyme-corporate.
+	measure 'Retraso pyme ene-24' = CALCULATE([Retraso pyme], ALL(Calendario), Calendario[anio] = 2024, Calendario[mes] = 1)
+		formatString: 0.0" d"
+		isHidden
+		displayFolder: 03 Plazos/_aux
+		lineageTag: 883c38d3-794a-4f19-901c-cc50fed9b987
+
+	/// Retraso medio corporate en enero 2024, punto de partida de la narrativa de la brecha pyme-corporate.
+	measure 'Retraso corporate ene-24' = CALCULATE([Retraso corporate], ALL(Calendario), Calendario[anio] = 2024, Calendario[mes] = 1)
+		formatString: 0.0" d"
+		isHidden
+		displayFolder: 03 Plazos/_aux
+		lineageTag: 637b4348-7e3a-4de3-a373-6a68daaefe23
+
+	/// Retraso medio del ultimo mes completo, ya formateado para la tarjeta de convergencia pyme-corporate.
+	measure 'Retraso ambos hoy texto' = "~" & FORMAT([Retraso mes actual], "0") & " d"
+		isHidden
+		displayFolder: 03 Plazos/_aux
+		lineageTag: 47c1d808-a74a-4d1c-80ec-cbce675197da
+
 	column Value
 		isHidden
+		lineageTag: 54bf54cc-4feb-4c3e-b2cb-0cb0978e07c4
 		isNameInferred
 		sourceColumn: [Value]
 

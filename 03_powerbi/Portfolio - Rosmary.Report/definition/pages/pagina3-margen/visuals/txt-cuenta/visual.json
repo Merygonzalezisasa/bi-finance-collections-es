@@ -1,13 +1,13 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
   "name": "txt-cuenta",
   "position": {
     "x": 754,
     "y": 104,
-    "z": 1,
+    "z": 4000,
     "height": 340,
     "width": 502,
-    "tabOrder": 2
+    "tabOrder": 2000
   },
   "visual": {
     "visualType": "textbox",

@@ -1,13 +1,13 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
   "name": "btn-p1",
   "position": {
     "x": 24,
-    "y": 376,
-    "z": 2,
+    "y": 388,
+    "z": 12000,
     "height": 92,
     "width": 232,
-    "tabOrder": 30
+    "tabOrder": 7000
   },
   "visual": {
     "visualType": "actionButton",
@@ -25,7 +25,7 @@
             "rectangleRoundedCurve": {
               "expr": {
                 "Literal": {
-                  "Value": "6L"
+                  "Value": "8L"
                 }
               }
             }

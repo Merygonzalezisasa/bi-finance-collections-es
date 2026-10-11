@@ -50,6 +50,37 @@
           "type": "BaseTheme"
         }
       ]
+    },
+    {
+      "name": "RegisteredResources",
+      "type": "RegisteredResources",
+      "items": [
+        {
+          "name": "icon-brecha9866579315170352.png",
+          "path": "icon-brecha9866579315170352.png",
+          "type": "Image"
+        },
+        {
+          "name": "icon-cobrado740215079572265.png",
+          "path": "icon-cobrado740215079572265.png",
+          "type": "Image"
+        },
+        {
+          "name": "icon-facturado08542213577562396.png",
+          "path": "icon-facturado08542213577562396.png",
+          "type": "Image"
+        },
+        {
+          "name": "icon-retraso5421236857366574.png",
+          "path": "icon-retraso5421236857366574.png",
+          "type": "Image"
+        },
+        {
+          "name": "icon-vencido8472028533258175.png",
+          "path": "icon-vencido8472028533258175.png",
+          "type": "Image"
+        }
+      ]
     }
   ],
   "settings": {
